@@ -13,4 +13,4 @@ def show_service(request):
     return render(request, 'service.html' )
 
 def show_serviceFinaly(request):
-    return render(request, 'serviceFinaly.html' )
+    return render(request, 'serviceFinally.html' )
