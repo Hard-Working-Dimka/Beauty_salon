@@ -17,6 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from Salons.views import show_index, show_notes, show_popup, show_service, show_serviceFinaly
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', show_index),
+    path('notes/', show_notes),
+    path('popup/', show_popup),
+    path('service/', show_service),
+    path('serviceF/', show_serviceFinaly),
 ]
