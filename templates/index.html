@@ -81,10 +81,18 @@
 					<div class="col-2 col-md-2 col-lg-3">
 						<div class="header__block">
 						<a href="tel:+79179023800"><button class="header__block_btn">Перезвоните мне</button></a>
+						 {% if user.is_authenticated %}
+							<div class="accaunt__ava fic">
+								<img src={{user.avatar.url}} alt="avatar" class="accaunt__ava_img">
+								<span class="accaunt__ava_name">{{user.name}}</span>
+								<a href={% url 'users:logout'%}?from={{ request.get_full_path }} class="accaunt__settings_out"> Выйти</a>
+							</div>
+						{% else %}
 						<div class="header__block_auth">
 							<img src="{% static "img/acc.svg" %}" alt="account" class="header__account_img">
 							<span class="header__block_auth__intro">Войти</span>
 						</div>
+						{% endif %}
 					</div>
 					</div>
 				</div>
@@ -642,34 +650,21 @@
 									<a href=""><img src="{% static "img/instaGray.svg" %}" alt="insta" class="contacts__social_icon"></a>
 								</div>
 							</div>
-						</div>
-						
-						
-						
+						</div>			
 					</div>
 					
 				</div>
 			</div>
 		</div>
 	</footer>
-
+	
 	<div style="display: none;">
 		<div class="box-modal authPopup popup" id="authModal">
 			<div class="box-modal_close arcticmodal-close"><img src="{% static "img/x.svg" %}" alt="x"></div>
-			<div class="popup__title authPopup__title">Войти по коду</div>
-			<p class="popup__text authPopup__text">Введите свой номер телефона, мы вышлем на него код</p>
-			<form action="#" class="authPopup__form">
-				<div class="contacts__form_inputBlock">
-					<input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="">
-				</div>
-				<div class="contacts__form_checkboxBlock fic">
-					<input type="checkbox" class="contacts__form_checkbox" checked="">
-					<span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
-				</div>
-				<button type="submit" class="popup__btn authPopup__btn">Отправить</button>
-			</form>
+			{% include 'login_popup.html' %}
 		</div>
 	</div>
+	
 	<div style="display: none;">
 		<div class="box-modal confirmPopup popup" id="confirmModal">
 			<div class="box-modal_close arcticmodal-close"><img src="{% static "img/x.svg" %}" alt="x"></div>
@@ -694,5 +689,8 @@
 	<script src="{% static "js/air-datepicker.js" %}"></script>
 	<script src="{% static "js/jquery.arcticmodal-0.3.min.js" %}"></script>
 	<script src="{% static "js/main.js" %}"></script>
+	{% if show_popup %}
+		<script src="{% static "js/login_popup.js" %}"></script>
+	{% endif %}
 </body>
 </html>
