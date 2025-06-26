@@ -7,10 +7,28 @@
     <title>Beauty City</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'css/jquery.arcticmodal-0.3.css' %}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+      integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+      integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/jquery.arcticmodal-0.3.css' %}"
+    />
     <link rel="stylesheet" href="{% static 'css/simple.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
@@ -23,10 +41,19 @@
           <div class="mobMenu__header">
             <div class="row">
               <div class="col-4 col-md-3">
-                <a href="/"><img src="{% static 'img/Logo.svg' %}" alt="Logo" class="logo header__logo" /></a>
+                <a href="/"
+                  ><img
+                    src="{% static 'img/Logo.svg' %}"
+                    alt="Logo"
+                    class="logo header__logo"
+                /></a>
               </div>
               <div class="col-3 col-md-2">
-                <img src="{% static 'img/x.svg' %}" alt="x" class="mobMenuClose" />
+                <img
+                  src="{% static 'img/x.svg' %}"
+                  alt="x"
+                  class="mobMenuClose"
+                />
               </div>
             </div>
           </div>
@@ -36,16 +63,30 @@
                 <nav>
                   <ul class="mobMenu__menu">
                     <li class="mobMenu__menu_item">
-                      <a href="{% url 'main' %}#masters" class="menu__item_link">Мастера</a>
+                      <a href="{% url 'main' %}#masters" class="menu__item_link"
+                        >Мастера</a
+                      >
                     </li>
                     <li class="mobMenu__menu_item">
-                      <a href="#services" class="menu__item_link">Услуги</a>
+                      <a
+                        href="{% url 'main' %}#services"
+                        class="menu__item_link"
+                        >Услуги</a
+                      >
                     </li>
                     <li class="mobMenu__menu_item">
-                      <a href="#reviews" class="mobMenu__menu_link">Отзывы</a>
+                      <a
+                        href="{% url 'main' %}#reviews"
+                        class="mobMenu__menu_link"
+                        >Отзывы</a
+                      >
                     </li>
                     <li class="mobMenu__menu_item">
-                      <a href="#contacts" class="mobMenu__menu_link">Контакты</a>
+                      <a
+                        href="{% url 'main' %}#contacts"
+                        class="mobMenu__menu_link"
+                        >Контакты</a
+                      >
                     </li>
                   </ul>
                 </nav>
@@ -66,43 +107,74 @@
         <div class="header">
           <div class="row">
             <div class="col-2 col-md-2 mob">
-              <img src="{% static 'img/hamburger.svg' %}" alt="hamburger" class="header__mobMenu" />
+              <img
+                src="{% static 'img/hamburger.svg' %}"
+                alt="hamburger"
+                class="header__mobMenu"
+              />
             </div>
             <div class="col-5 col-md-3 col-lg-2">
-              <a href="/"><img src="{% static 'img/Logo.svg' %}" alt="Logo" class="logo header__logo" /></a>
+              <a href="/"
+                ><img
+                  src="{% static 'img/Logo.svg' %}"
+                  alt="Logo"
+                  class="logo header__logo"
+              /></a>
             </div>
             <div class="col-md-5">
               <nav>
                 <ul class="menu">
                   <li class="menu__item">
-                    <a href="{% url 'main' %}#masters" class="menu__item_link">Мастера</a>
+                    <a href="{% url 'main' %}#masters" class="menu__item_link"
+                      >Мастера</a
+                    >
                   </li>
                   <li class="menu__item">
-                    <a href="#services" class="menu__item_link">Услуги</a>
+                    <a href="{% url 'main' %}#services" class="menu__item_link"
+                      >Услуги</a
+                    >
                   </li>
                   <li class="menu__item">
-                    <a href="#reviews" class="menu__item_link">Отзывы</a>
+                    <a href="{% url 'main' %}#reviews" class="menu__item_link"
+                      >Отзывы</a
+                    >
                   </li>
                   <li class="menu__item">
-                    <a href="#contacts" class="menu__item_link">Контакты</a>
+                    <a href="{% url 'main' %}#contacts" class="menu__item_link"
+                      >Контакты</a
+                    >
                   </li>
                 </ul>
               </nav>
             </div>
             <div class="col-2 col-md-2 col-lg-3">
               <div class="header__block">
-                <a href="tel:+79179023800"><button class="header__block_btn">Перезвоните мне</button></a>
+                <a href="tel:+79179023800"
+                  ><button class="header__block_btn">Перезвоните мне</button></a
+                >
                 {% if user.is_authenticated %}
-                  <div class="accaunt__ava fic">
-                    <img src="{{ user.avatar.url }}" alt="avatar" class="accaunt__ava_img" />
-                    <span class="accaunt__ava_name">{{ user.name }}</span>
-                    <a href="{% url 'users:logout' %}?from={{ request.get_full_path }}" class="accaunt__settings_out">Выйти</a>
-                  </div>
+                <div class="accaunt__ava fic">
+                  <img
+                    src="{{ user.avatar.url }}"
+                    alt="avatar"
+                    class="accaunt__ava_img"
+                  />
+                  <span class="accaunt__ava_name">{{ user.name }}</span>
+                  <a
+                    href="{% url 'users:logout' %}?from={{ request.get_full_path }}"
+                    class="accaunt__settings_out"
+                    >Выйти</a
+                  >
+                </div>
                 {% else %}
-                  <div class="header__block_auth">
-                    <img src="{% static 'img/acc.svg' %}" alt="account" class="header__account_img" />
-                    <span class="header__block_auth__intro">Войти</span>
-                  </div>
+                <div class="header__block_auth">
+                  <img
+                    src="{% static 'img/acc.svg' %}"
+                    alt="account"
+                    class="header__account_img"
+                  />
+                  <span class="header__block_auth__intro">Войти</span>
+                </div>
                 {% endif %}
               </div>
             </div>
@@ -110,31 +182,46 @@
         </div>
       </div>
     </header>
-    {% block content %}
-
-    {% endblock %}
+    {% block content %} {% endblock %}
     <footer id="footer">
       <div class="container">
         <div class="footer">
           <div class="footer__block">
             <div class="row">
               <div class="col-md-3 col-lg-2">
-                <a href="/"><img src="{% static 'img/Logo.svg' %}" alt="logo" class="footer__logo" /></a>
+                <a href="/"
+                  ><img
+                    src="{% static 'img/Logo.svg' %}"
+                    alt="logo"
+                    class="footer__logo"
+                /></a>
               </div>
               <div class="col-md-5 minMobHide">
                 <nav>
                   <ul class="menu">
                     <li class="menu__item">
-                      <a href="#" class="menu__item_link">Мастера</a>
+                      <a href="{% url 'main' %}#masters" class="menu__item_link"
+                        >Мастера</a
+                      >
                     </li>
                     <li class="menu__item">
-                      <a href="#" class="menu__item_link">Услуги</a>
+                      <a
+                        href="{% url 'main' %}#services"
+                        class="menu__item_link"
+                        >Услуги</a
+                      >
                     </li>
                     <li class="menu__item">
-                      <a href="#" class="menu__item_link">Отзывы</a>
+                      <a href="{% url 'main' %}#reviews" class="menu__item_link"
+                        >Отзывы</a
+                      >
                     </li>
                     <li class="menu__item">
-                      <a href="#" class="menu__item_link">Контакты</a>
+                      <a
+                        href="{% url 'main' %}#contacts"
+                        class="menu__item_link"
+                        >Контакты</a
+                      >
                     </li>
                   </ul>
                 </nav>
@@ -146,24 +233,42 @@
                   <div class="footer__data">с 10:00 до 20:00 без выходных</div>
                 </div>
                 <div class="col-md-3">
-                  <a href="tel:+79179023800" class="contacts__info_tel">+7 (917) 902 38 00</a>
+                  <a href="tel:+79179023800" class="contacts__info_tel"
+                    >+7 (917) 902 38 00</a
+                  >
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-5 minMobShow">
                   <nav>
-                    <ul class="menu">
-                      <li class="menu__item">
-                        <a href="#" class="menu__item_link">Мастера</a>
+                    <ul class="mobMenu__menu">
+                      <li class="mobMenu__menu_item">
+                        <a
+                          href="{% url 'main' %}#masters"
+                          class="menu__item_link"
+                          >Мастера</a
+                        >
                       </li>
-                      <li class="menu__item">
-                        <a href="#" class="menu__item_link">Услуги</a>
+                      <li class="mobMenu__menu_item">
+                        <a
+                          href="{% url 'main' %}#services"
+                          class="menu__item_link"
+                          >Услуги</a
+                        >
                       </li>
-                      <li class="menu__item">
-                        <a href="#" class="menu__item_link">Отзывы</a>
+                      <li class="mobMenu__menu_item">
+                        <a
+                          href="{% url 'main' %}#reviews"
+                          class="mobMenu__menu_link"
+                          >Отзывы</a
+                        >
                       </li>
-                      <li class="menu__item">
-                        <a href="#" class="menu__item_link">Контакты</a>
+                      <li class="mobMenu__menu_item">
+                        <a
+                          href="{% url 'main' %}#contacts"
+                          class="mobMenu__menu_link"
+                          >Контакты</a
+                        >
                       </li>
                     </ul>
                   </nav>
@@ -174,17 +279,39 @@
             <div class="footer__bottom">
               <div class="row">
                 <div class="col-md-4 col-lg-3">
-                  <a href="#" class="footer__link">Политика конфиденциальности</a>
+                  <a href="#" class="footer__link"
+                    >Политика конфиденциальности</a
+                  >
                 </div>
                 <div class="col-md-3">
                   <div class="footer__copy">2022. Все права защищены</div>
                 </div>
                 <div class="col-md-3 col-lg-2">
                   <div class="footer__social fic">
-                    <a href=""><img src="{% static 'img/waGray.svg' %}" alt="wa" class="contacts__social_icon" /></a>
-                    <a href=""><img src="{% static 'img/vkGray.svg' %}" alt="vk" class="contacts__social_icon" /></a>
-                    <a href=""><img src="{% static 'img/tgGray.svg' %}" alt="tg" class="contacts__social_icon" /></a>
-                    <a href=""><img src="{% static 'img/instaGray.svg' %}" alt="insta" class="contacts__social_icon" /></a>
+                    <a href=""
+                      ><img
+                        src="{% static 'img/waGray.svg' %}"
+                        alt="wa"
+                        class="contacts__social_icon"
+                    /></a>
+                    <a href=""
+                      ><img
+                        src="{% static 'img/vkGray.svg' %}"
+                        alt="vk"
+                        class="contacts__social_icon"
+                    /></a>
+                    <a href=""
+                      ><img
+                        src="{% static 'img/tgGray.svg' %}"
+                        alt="tg"
+                        class="contacts__social_icon"
+                    /></a>
+                    <a href=""
+                      ><img
+                        src="{% static 'img/instaGray.svg' %}"
+                        alt="insta"
+                        class="contacts__social_icon"
+                    /></a>
                   </div>
                 </div>
               </div>
@@ -194,63 +321,93 @@
       </div>
     </footer>
 
-    <div style="display: none;">
+    <div style="display: none">
       <div class="box-modal authPopup popup" id="authModal">
         <div class="box-modal_close arcticmodal-close">
           <img src="{% static 'img/x.svg' %}" alt="x" />
         </div>
         <div class="authPopup popup">
           <p class="popup__text authPopup__text">Введите для авторизации</p>
-          <form method="post" action="{% url 'users:login' %}?from={{ request.get_full_path }}" class="authPopup__form">
+          <form
+            method="post"
+            action="{% url 'users:login' %}?from={{ request.get_full_path }}"
+            class="authPopup__form"
+          >
             {% csrf_token %}
             <div class="contacts__form_inputBlock">
-              <input type="text" name="phonenumber" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required="" />
+              <input
+                type="text"
+                name="phonenumber"
+                class="contacts__form_iunput"
+                placeholder="+7(999)999--99-99"
+                required=""
+              />
             </div>
             {% if error %}
-              <p class="popup__error">{{ error }}</p>
+            <p class="popup__error">{{ error }}</p>
             {% endif %}
             <div class="contacts__form_checkboxBlock fic">
-              <input type="checkbox" class="contacts__form_checkbox" checked="" />
-              <span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециальности</span>
+              <input
+                type="checkbox"
+                class="contacts__form_checkbox"
+                checked=""
+              />
+              <span class="contacts__form_checkboxBlock__intro"
+                >Я согласен(а) с политикой конфидециальности</span
+              >
             </div>
-            <button type="submit" class="popup__btn authPopup__btn">Отправить</button>
+            <button type="submit" class="popup__btn authPopup__btn">
+              Отправить
+            </button>
           </form>
         </div>
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+      integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="{% static 'js/air-datepicker.js' %}"></script>
     <script src="{% static 'js/jquery.arcticmodal-0.3.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     {% if show_popup %}
-      <script src="{% static 'js/login_popup.js' %}"></script>
+    <script src="{% static 'js/login_popup.js' %}"></script>
     {% endif %}
     <script>
-      const form = document.getElementById('consultationForm')
-      
-      form.addEventListener('submit', function (event) {
-        event.preventDefault() // Не отправлять форму
-        const consent = document.getElementById('consentCheckbox')
+      const form = document.getElementById("consultationForm");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Не отправлять форму
+        const consent = document.getElementById("consentCheckbox");
         if (consent.checked) {
-          document.getElementById('thankYouModal').style.display = 'block'
-          form.reset()
+          document.getElementById("thankYouModal").style.display = "block";
+          form.reset();
         } else {
-          alert('Пожалуйста, подтвердите согласие с политикой конфиденциальности.')
+          alert(
+            "Пожалуйста, подтвердите согласие с политикой конфиденциальности."
+          );
         }
-      })
+      });
       function closeModal() {
-        document.getElementById('thankYouModal').style.display = 'none'
+        document.getElementById("thankYouModal").style.display = "none";
       }
     </script>
     <script>
       function openModal() {
-        document.getElementById('phoneModal').style.display = 'block'
+        document.getElementById("phoneModal").style.display = "block";
       }
-      
+
       function closeModal() {
-        document.getElementById('phoneModal').style.display = 'none'
+        document.getElementById("phoneModal").style.display = "none";
       }
     </script>
   </body>
