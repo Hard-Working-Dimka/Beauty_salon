@@ -18,14 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from Salons.views import show_index, show_notes, show_popup, show_service, show_serviceFinaly
+from Salons.views import show_index, show_notes, show_service, show_serviceFinaly
 
 urlpatterns = [
     path('users/', include('CustomUser.urls')),
     path('admin/', admin.site.urls),
     path('', show_index, name='main'),
     path('notes/', show_notes),
-    path('popup/', show_popup),
     path('service/', show_service, name='service'),
     path('serviceF/', show_serviceFinaly, name='serviceFinally'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

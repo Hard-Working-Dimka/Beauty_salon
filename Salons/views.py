@@ -1,24 +1,31 @@
 from django.shortcuts import render
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+
 def show_index(request):
-    error = request.session.pop('error', None)
-    show_popup = request.session.get('show_popup', False)
-    context = {'error': error, 'show_popup': show_popup}
-    return render(request, 'index.html', context=context)
+    error = request.session.pop("error", None)
+    show_popup = request.session.get("show_popup", False)
+    context = {"error": error, "show_popup": show_popup}
+    return render(request, "index.html", context=context)
+
 
 def show_notes(request):
-    return render(request, 'notes.html' )
+    return render(request, "notes.html")
 
-def show_popup(request):
-    return render(request, 'popup.html')
 
 def show_service(request):
-    return render(request, 'service.html' )
+    error = request.session.pop("error", None)
+    show_popup = request.session.get("show_popup", False)
+    context = {"error": error, "show_popup": show_popup}
+    return render(request, "service.html", context=context)
+
 
 def show_serviceFinaly(request):
-    return render(request, 'serviceFinally.html' )
+    error = request.session.pop("error", None)
+    show_popup = request.session.get("show_popup", False)
+    context = {"error": error, "show_popup": show_popup}
+    return render(request, "serviceFinally.html", context=context)
