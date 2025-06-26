@@ -1,6 +1,4 @@
 from django.shortcuts import render
-from django import forms
-from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.

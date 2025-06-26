@@ -28,4 +28,3 @@ urlpatterns = [
     path('service/', show_service, name='service'),
     path('serviceF/', show_serviceFinaly, name='serviceFinally'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
