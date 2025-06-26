@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Beauty City</title>
+	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,6 +18,15 @@
 	<script src="{% static "js/air-datepicker.js" %}"></script>
 	<link rel="stylesheet" href="{% static "css/main.css" %}">
 </head>
+<script>
+  	function openModal() {
+    document.getElementById("phoneModal").style.display = "block";
+  	}
+
+  	function closeModal() {
+    document.getElementById("phoneModal").style.display = "none";
+ 	}
+</script>
 <body class="servicePage">
 	<section id="mobMenu">
 			<div class="mobMenu">
@@ -49,11 +59,6 @@
 							<a href="#" class="mobMenu__account">Личный кабинет</a>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<button class="mobMenu__btn">Перезвоните мне</button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -81,13 +86,10 @@
 					</nav>
 					</div>
 					<div class="col-2 col-md-2 col-lg-3">
-						<div class="header__block">
-						<button class="header__block_btn">Перезвоните мне</button>
 						<div class="header__block_auth">
 							<img src="{% static "img/acc.svg" %}" alt="account" class="header__account_img">
 							<span class="header__block_auth__intro">Войти</span>
 						</div>
-					</div>
 					</div>
 				</div>
 				
@@ -100,11 +102,19 @@
 		<div class="container">
 			<div class="service">
 				<div class="breadCrumbs">
-					<a href="#" class="breadCrumbs__item">На главную</a>
+					<a href="{% url 'main' %}" class="breadCrumbs__item">На главную</a>
 				</div>
 				<div class="service__block">
 					<h1 class="service__title">Запись на услугу</h1>
-					<button class="service__btn btn">Запись по телефону</button>
+					<button class="phone__btn" onclick="openModal()">Запись по телефону</button>
+					<div id="phoneModal" class="modal">
+  					<div class="modal-content">
+    				<p class="modal-text">Чтобы записаться на нужную Вам услугу,<br> пожалуйста, позвоните по этому номеру<br><strong>+7 (917) 902 38 00</strong></p>
+    					<button class="modal-ok" onclick="closeModal()">Окей</button>
+
+  					</div>
+					</div>
+
 				</div>
 				
 				<form action="#" class="service__form">
@@ -258,8 +268,8 @@
 				<div class="time__btns">
 					<div class="row">
 						<div class="col-md-12">
-							<button  class="time__btns_next">Далее</button>
-							<button  class="time__btns_home">На главную</button>
+							<a href="{% url 'serviceFinally' %}"><button class="time__btns_next">Далее</button></a>
+							<a href="{% url 'main' %}"><button class="time__btns_home">На главную</button></a>
 						</div>
 					</div>
 				</div>

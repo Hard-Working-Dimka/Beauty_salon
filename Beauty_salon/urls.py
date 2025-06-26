@@ -21,9 +21,9 @@ from Salons.views import show_index, show_notes, show_popup, show_service, show_
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', show_index),
+    path('', show_index, name='main'),
     path('notes/', show_notes),
     path('popup/', show_popup),
-    path('service/', show_service),
-    path('serviceF/', show_serviceFinaly),
+    path('service/', show_service, name='service'),
+    path('serviceF/', show_serviceFinaly, name='serviceFinally'),
 ]

@@ -122,9 +122,15 @@ border:  none;
 color: #F6A912;
 }
 .header__block_auth {
-cursor: pointer;
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
 }
 .header__account_img {
 	margin-right: 5px;
@@ -2480,3 +2486,84 @@ color: #262626;
 		width: 95%
 	}
 }
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 120px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  font-family: 'Arial', sans-serif;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-text {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.modal-ok {
+  background-color: #ffd700;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #000;
+}
+.modal-ok:hover {
+  background-color: #ffcc00;
+}
+
+.phone__btn {
+  background-color: #ffc800;
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  font-size: 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.phone__btn:hover {
+  background-color: #e6b800;
+}
+
+.modal-ok {
+  background-color: #ffc800;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-ok:hover {
+  background-color: #e6b800;
+}
+
+

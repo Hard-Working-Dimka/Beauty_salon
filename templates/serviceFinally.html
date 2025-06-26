@@ -49,11 +49,6 @@
 							<a href="#" class="mobMenu__account">Личный кабинет</a>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<button class="mobMenu__btn">Перезвоните мне</button>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -81,13 +76,10 @@
 					</nav>
 					</div>
 					<div class="col-2 col-md-2 col-lg-3">
-						<div class="header__block">
-						<button class="header__block_btn">Перезвоните мне</button>
 						<div class="header__block_auth">
 							<img src="{% static "img/acc.svg" %}" alt="account" class="header__account_img">
 							<span class="header__block_auth__intro">Войти</span>
 						</div>
-					</div>
 					</div>
 				</div>
 				
@@ -102,7 +94,7 @@
 				<div class="row">
 					<div class="col-md-6 col-lg-6">
 						<div class="breadCrumbs">
-							<a href="#" class="breadCrumbs__item">На главную</a>
+							<a href="{% url 'main' %}" class="breadCrumbs__item">На главную</a>
 						</div>
 						<div class="service__block">
 							<h1 class="service__title">Запись на услугу</h1>
@@ -148,7 +140,8 @@
 									<span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
 								</div>
 								<button type="submit" class="serviceFinallys__form_btn">Записаться</button>
-								<button type="submit" class="serviceFinallys__form_back">Назад</button>
+								<a href="{% url 'service' %}"><button type="button" class="serviceFinallys__form_back">Назад</button></a>
+
 							</div>
 						</form>	
 					</div>
