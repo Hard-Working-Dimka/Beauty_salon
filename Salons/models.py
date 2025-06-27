@@ -1,3 +1,110 @@
 from django.db import models
 
-# Create your models here.
+
+class ServiceType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class BeautyService(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField()
+
+    def __str__(self):
+        return self.name
+
+
+class Salon(models.Model):
+    address = models.CharField(max_length=100)
+    beauty_services = models.DateTimeField()
+    image = models.ImageField()
+    work_start_at = models.TimeField()
+    work_end_time = models.TimeField()
+
+    def __str__(self):
+        return self.address
+
+
+class BeautyServiceInSalon(models.Model):
+    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
+    beauty_service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
+
+
+class Review(models.Model):
+    phone_number = models.BigIntegerField()
+    description = models.TextField()
+    name = models.CharField(max_length=100)
+
+
+class Specialist(models.Model):
+    experience = models.CharField(max_length=100)
+    spec = models.CharField(max_length=100)
+    photo = models.ImageField()
+    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.spec} ({self.experience})'
+
+
+class EXTENSIONpromo(models.Model):
+    is_active = models.BooleanField(default=True)
+    from_date = models.DateTimeField()
+    to_date = models.DateTimeField()
+    name = models.CharField(max_length=100)
+    percent = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class Appointment(models.Model):
+    date = models.DateField()
+    slot = models.TimeField()
+    duration_min = models.IntegerField()
+    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    phone_number = models.BigIntegerField()
+    is_paid = models.BooleanField(default=False)
+    service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
+    Promo = models.ForeignKey(EXTENSIONpromo, null=True, blank=True, on_delete=models.SET_NULL)
+    question = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.name} — {self.date} {self.slot}'
+
+
+class SpecialistSkills(models.Model):
+    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    skill = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
+
+
+class SpecialistV2(models.Model):
+    experience = models.CharField(max_length=100)
+    spec = models.CharField(max_length=100)
+
+
+class WorkScheduleV2(models.Model):
+    specialist = models.ForeignKey(SpecialistV2, on_delete=models.CASCADE)
+    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
+    work_start = models.DateTimeField()
+    work_end = models.DateTimeField()
+
+
+class EXTENSIONreview(models.Model):
+    RATING_CHOICES = [
+        ('1', '★☆☆☆☆'),
+        ('2', '★★☆☆☆'),
+        ('3', '★★★☆☆'),
+        ('4', '★★★★☆'),
+        ('5', '★★★★★'),
+    ]
+
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    phone_number = models.BigIntegerField()
+    review = models.TextField()
+    raiting = models.CharField(max_length=1, choices=RATING_CHOICES)
