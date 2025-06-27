@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+from Salons.models import Salon
 
 
 def show_index(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    context = {"error": error, "show_popup": show_popup}
+    salons = list(Salon.objects.all())
+    while len(salons) < 4:
+        salons.append(Salon.objects.first())
+
+    context = {"error": error, "show_popup": show_popup, "salons": salons}
     return render(request, "index.html", context=context)
 
 
