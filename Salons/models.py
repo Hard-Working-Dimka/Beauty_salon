@@ -22,7 +22,6 @@ class BeautyService(models.Model):
 class Salon(models.Model):
     name = models.CharField(max_length=100, default="Beauty City")
     address = models.CharField(max_length=100)
-    beauty_services = models.DateTimeField()
     image = models.ImageField()
     work_start_at = models.TimeField()
     work_end_time = models.TimeField()
