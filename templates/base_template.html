@@ -155,10 +155,15 @@
                 {% if user.is_authenticated %}
                 <div class="accaunt__ava fic">
                   <img
+                  {% if  user.avatar %}
                     src="{{ user.avatar.url }}"
+                    {% else %}
+                    src="{% static 'img/acc.svg' %}"
+                    {% endif %}
                     alt="avatar"
                     class="accaunt__ava_img"
                   />
+                  
                   <span class="accaunt__ava_name">{{ user.name }}</span>
                   <a
                     href="{% url 'users:logout' %}?from={{ request.get_full_path }}"
