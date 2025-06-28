@@ -25,7 +25,6 @@ class Salon(models.Model):
     image = models.ImageField(upload_to='salon_images/')
     work_start_at = models.TimeField()
     work_end_time = models.TimeField()
-    services = models.ManyToManyField(BeautyService, related_name='salons')
 
     def __str__(self):
         return self.address
@@ -38,6 +37,7 @@ class Review(models.Model):
 
 
 class Specialist(models.Model):
+    name = models.CharField(max_length=100)
     experience = models.CharField(max_length=100)
     spec = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='specialist_images/')
