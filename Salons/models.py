@@ -22,7 +22,7 @@ class BeautyService(models.Model):
 class Salon(models.Model):
     name = models.CharField(max_length=100, default="Beauty City")
     address = models.CharField(max_length=100)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='salon_images/')
     work_start_at = models.TimeField()
     work_end_time = models.TimeField()
     services = models.ManyToManyField(BeautyService, related_name='salons')
@@ -40,7 +40,7 @@ class Review(models.Model):
 class Specialist(models.Model):
     experience = models.CharField(max_length=100)
     spec = models.CharField(max_length=100)
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to='specialist_images/')
     salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
     skills = models.ManyToManyField(BeautyService, related_name='specialists')
 
