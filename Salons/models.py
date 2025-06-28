@@ -26,14 +26,10 @@ class Salon(models.Model):
     image = models.ImageField()
     work_start_at = models.TimeField()
     work_end_time = models.TimeField()
+    services = models.ManyToManyField(BeautyService, related_name='salons')
 
     def __str__(self):
         return self.address
-
-
-class BeautyServiceInSalon(models.Model):
-    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
-    beauty_service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
 
 
 class Review(models.Model):
@@ -47,12 +43,13 @@ class Specialist(models.Model):
     spec = models.CharField(max_length=100)
     photo = models.ImageField()
     salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
+    skills = models.ManyToManyField(BeautyService, related_name='specialists')
 
     def __str__(self):
         return f'{self.spec} ({self.experience})'
 
 
-class EXTENSIONpromo(models.Model):
+class Promo(models.Model):
     is_active = models.BooleanField(default=True)
     from_date = models.DateTimeField()
     to_date = models.DateTimeField()
@@ -71,7 +68,7 @@ class Appointment(models.Model):
     phone_number = models.BigIntegerField()
     is_paid = models.BooleanField(default=False)
     service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
-    Promo = models.ForeignKey(EXTENSIONpromo, null=True, blank=True, on_delete=models.SET_NULL)
+    Promo = models.ForeignKey(Promo, null=True, blank=True, on_delete=models.SET_NULL)
     question = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
 
@@ -79,24 +76,7 @@ class Appointment(models.Model):
         return f'{self.name} — {self.date} {self.slot}'
 
 
-class SpecialistSkills(models.Model):
-    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
-    skill = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
-
-
-class SpecialistV2(models.Model):
-    experience = models.CharField(max_length=100)
-    spec = models.CharField(max_length=100)
-
-
-class WorkScheduleV2(models.Model):
-    specialist = models.ForeignKey(SpecialistV2, on_delete=models.CASCADE)
-    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
-    work_start = models.DateTimeField()
-    work_end = models.DateTimeField()
-
-
-class EXTENSIONreview(models.Model):
+class ClientReview(models.Model):
     RATING_CHOICES = [
         ('1', '★☆☆☆☆'),
         ('2', '★★☆☆☆'),
@@ -108,4 +88,4 @@ class EXTENSIONreview(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     phone_number = models.BigIntegerField()
     review = models.TextField()
-    raiting = models.CharField(max_length=1, choices=RATING_CHOICES)
+    rating = models.CharField(max_length=1, choices=RATING_CHOICES)

@@ -3,15 +3,11 @@ from .models import (
     ServiceType,
     BeautyService,
     Salon,
-    BeautyServiceInSalon,
     Review,
     Specialist,
-    EXTENSIONpromo,
+    Promo,
     Appointment,
-    SpecialistSkills,
-    SpecialistV2,
-    WorkScheduleV2,
-    EXTENSIONreview
+    ClientReview
 )
 
 
@@ -30,11 +26,6 @@ class SalonAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(BeautyServiceInSalon)
-class BeautyServiceInSalonAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     pass
@@ -45,8 +36,8 @@ class SpecialistAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(EXTENSIONpromo)
-class EXTENSIONpromoAdmin(admin.ModelAdmin):
+@admin.register(Promo)
+class PromoAdmin(admin.ModelAdmin):
     pass
 
 
@@ -55,21 +46,6 @@ class AppointmentAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(SpecialistSkills)
-class SpecialistSkillsAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(SpecialistV2)
-class SpecialistV2Admin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(WorkScheduleV2)
-class WorkScheduleV2Admin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(EXTENSIONreview)
-class EXTENSIONreviewAdmin(admin.ModelAdmin):
+@admin.register(ClientReview)
+class ClientReviewAdmin(admin.ModelAdmin):
     pass
