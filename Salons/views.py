@@ -1,17 +1,32 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from Salons.models import Salon, Specialist, ServiceType
+from Salons.models import Salon, Specialist, ServiceType, BeautyService
 
 
 def show_index(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    salons = list(Salon.objects.all())
-    while len(salons) < 4:
-        salons.append(Salon.objects.first())
 
-    context = {"error": error, "show_popup": show_popup, "salons": salons}
+    salons = list(Salon.objects.all())
+    while len(salons) < 4 and salons:
+        fake_block = Salon.objects.first()
+        fake_block.is_fake = True
+        salons.append(fake_block)
+
+    beauty_services = list(BeautyService.objects.all())
+    while len(beauty_services) < 4 and beauty_services:
+        fake_block = BeautyService.objects.first()
+        fake_block.is_fake = True
+        beauty_services.append(fake_block)
+
+
+    context = {
+        "error": error,
+        "show_popup": show_popup,
+        "salons": salons,
+        "beauty_services": beauty_services,
+    }
     return render(request, "index.html", context=context)
 
 

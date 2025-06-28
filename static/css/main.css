@@ -2962,3 +2962,11 @@ footer {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
+.services__block_img {
+    width: 289px;
+    height: 190px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
