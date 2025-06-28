@@ -22,7 +22,8 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    context = {"error": error, "show_popup": show_popup}
+    salons = Salon.objects.all()
+    context = {"error": error, "show_popup": show_popup, "salons": salons}
     return render(request, "service.html", context=context)
 
 
