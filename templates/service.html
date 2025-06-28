@@ -32,20 +32,16 @@
 					</select>  -->
         <div class="service__form_block service__salons">
           <button class="accordion">(Выберите салон)</button>
+          {% if salons %}
+          {% for salon in salons %}
           <div class="panel">
+            
             <div class="accordion__block fic">
-              <div class="accordion__block_intro">BeautyCity Пушкинская</div>
-              <div class="accordion__block_address">ул. Пушкинская, д. 78А</div>
+              <div class="accordion__block_intro">{{salon.name}}</div>
+              <div class="accordion__block_address">{{salon.address}}</div>
             </div>
-            <div class="accordion__block fic">
-              <div class="accordion__block_intro">BeautyCity Ленина</div>
-              <div class="accordion__block_address">ул. Ленина, д. 211</div>
-            </div>
-            <div class="accordion__block fic">
-              <div class="accordion__block_intro">BeautyCity Красная</div>
-              <div class="accordion__block_address">ул. Красная, д. 10</div>
-            </div>
-          </div>
+            {% endfor %}
+            {% endif %}
         </div>
         <div class="service__form_block service__services">
           <button class="accordion">(Выберите услугу)</button>
@@ -187,12 +183,8 @@
       <div class="time__btns">
         <div class="row">
           <div class="col-md-12">
-            <a href="{% url 'serviceFinally' %}"
-              ><button class="time__btns_next">Далее</button></a
-            >
-            <a href="{% url 'main' %}"
-              ><button class="time__btns_home">На главную</button></a
-            >
+            <button class="time__btns_next" onclick="{% url 'serviceFinally' %}">Далее</button>
+            <button class="time__btns_home" onclick="{% url 'main' %}">На главную</button>
           </div>
         </div>
       </div>
