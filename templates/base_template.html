@@ -389,19 +389,20 @@
     {% endif %}
     <script>
       const form = document.getElementById("consultationForm");
-
-      form.addEventListener("submit", function (event) {
-        event.preventDefault(); // Не отправлять форму
-        const consent = document.getElementById("consentCheckbox");
-        if (consent.checked) {
-          document.getElementById("thankYouModal").style.display = "block";
-          form.reset();
-        } else {
-          alert(
-            "Пожалуйста, подтвердите согласие с политикой конфиденциальности."
-          );
-        }
-      });
+      if (form) {
+        form.addEventListener("submit", function (event) {
+          event.preventDefault(); // Не отправлять форму
+          const consent = document.getElementById("consentCheckbox");
+          if (consent.checked) {
+            document.getElementById("thankYouModal").style.display = "block";
+            form.reset();
+          } else {
+            alert(
+              "Пожалуйста, подтвердите согласие с политикой конфиденциальности."
+            );
+          }
+        })
+      };
       function closeModal() {
         document.getElementById("thankYouModal").style.display = "none";
       }
