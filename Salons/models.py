@@ -11,7 +11,7 @@ class ServiceType(models.Model):
 class BeautyService(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE)
+    service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE, related_name='services')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField()
 
