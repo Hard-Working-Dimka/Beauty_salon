@@ -46,78 +46,33 @@
         <div class="service__form_block service__services">
           <button class="accordion">(Выберите услугу)</button>
           <div class="panel">
-            <button class="accordion">Парикмахерские услуги</button>
-            <div class="panel">
-              <!-- <div class="accordion__block_intro">Макияж</div> -->
-              <div class="accordion__block_items">
+            {% for service_type in service_types %}
+              <button class="accordion">{{service_type.name}}</button>
+              <div class="panel">
+               <div class="accordion__block_items"> 
+              {% for service in service_type.services.all %}
                 <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">
-                    Окрашивание волос
-                  </div>
-                  <div class="accordion__block_item_address">5 000 ₽</div>
+                  <div class="accordion__block_item_intro">{{service.name}}</div>
+                  <div class="accordion__block_item_address">{{service.price}} ₽</div>
                 </div>
-
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">Укладка волос</div>
-                  <div class="accordion__block_item_address">1 500 ₽</div>
-                </div>
+              {% endfor %}
               </div>
-            </div>
-            <button class="accordion">Ногтевой сервис</button>
-            <div class="panel">
-              <!-- <div class="accordion__block_intro">Макияж</div> -->
-              <div class="accordion__block_items">
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">
-                    Маникюр. Классический
-                  </div>
-                  <div class="accordion__block_item_address">1 400 ₽</div>
-                </div>
-
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">Педикюр</div>
-                  <div class="accordion__block_item_address">1 400 ₽</div>
-                </div>
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">
-                    Наращивание ногтей
-                  </div>
-                  <div class="accordion__block_item_address">1 400 ₽</div>
-                </div>
-              </div>
-            </div>
-            <!--   <div class="accordion__block">
-						  	<div class="accordion__block_intro">Парикмахерские услуги</div>
-						  </div>
-						  <div class="accordion__block">
-						  	<div class="accordion__block_intro">Ногтевой сервис</div>
-						  </div>  -->
-            <button class="accordion">Макияж</button>
-            <div class="panel">
-              <!-- <div class="accordion__block_intro">Макияж</div> -->
-              <div class="accordion__block_items">
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">Дневной макияж</div>
-                  <div class="accordion__block_item_address">1 400 ₽</div>
-                </div>
-
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">
-                    Свадебный макияж
-                  </div>
-                  <div class="accordion__block_item_address">3 000 ₽</div>
-                </div>
-                <div class="accordion__block_item fic">
-                  <div class="accordion__block_item_intro">Вечерний макияж</div>
-                  <div class="accordion__block_item_address">2 000 ₽</div>
-                </div>
-              </div>
-            </div>
+              </div> 
+            {% endfor %}
           </div>
         </div>
         <div class="service__form_block service__masters">
           <button class="accordion">(Выберите мастера)</button>
-          <div class="panel"></div>
+          <div class="panel">
+            {% for specialist in specialists %}
+              <div class="accordion__block fic">
+                <div class="accordion__block_elems fic">
+                  <img src="{{specialist.photo.url}}" alt="avatar" class="accordion__block_img">
+                  <div class="accordion__block_master">{{specialist.spec}}</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         </div>
       </form>
     </div>

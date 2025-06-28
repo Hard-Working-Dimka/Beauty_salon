@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from Salons.models import Salon
+from Salons.models import Salon, Specialist, ServiceType
 
 
 def show_index(request):
@@ -23,7 +23,15 @@ def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
     salons = Salon.objects.all()
-    context = {"error": error, "show_popup": show_popup, "salons": salons}
+    service_types = ServiceType.objects.all().prefetch_related("services")
+    specialists = Specialist.objects.all()
+    context = {
+        "error": error,
+        "show_popup": show_popup,
+        "salons": salons,
+        "service_types": service_types,
+        "specialists": specialists,
+    }
     return render(request, "service.html", context=context)
 
 
