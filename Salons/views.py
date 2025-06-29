@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from Salons.models import Salon, Specialist, ServiceType, BeautyService
+from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
 
 
 def show_index(request):
@@ -20,12 +20,27 @@ def show_index(request):
         fake_block.is_fake = True
         beauty_services.append(fake_block)
 
+    reviews = list(ClientReview.objects.all())
+    while len(reviews) < 4 and reviews:
+        fake_block = ClientReview.objects.first()
+        fake_block.is_fake = True
+        reviews.append(fake_block)
+
+    specialists = list(Specialist.objects.all())
+    while len(specialists) < 4 and specialists:
+        fake_block = Specialist.objects.first()
+        fake_block.is_fake = True
+        specialists.append(fake_block)
+
+
 
     context = {
         "error": error,
         "show_popup": show_popup,
         "salons": salons,
         "beauty_services": beauty_services,
+        "reviews": reviews,
+        "specialists": specialists,
     }
     return render(request, "index.html", context=context)
 
