@@ -63,7 +63,7 @@ class Appointment(models.Model):
     date = models.DateField()
     slot = models.TimeField()
     duration_min = models.IntegerField()
-    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='appointments')
     phone_number = models.BigIntegerField()
     is_paid = models.BooleanField(default=False)
     service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
@@ -84,7 +84,7 @@ class ClientReview(models.Model):
         ('5', '★★★★★'),
     ]
 
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, verbose_name='client_reviews')
     phone_number = models.BigIntegerField()
     review = models.TextField()
     rating = models.CharField(max_length=1, choices=RATING_CHOICES)

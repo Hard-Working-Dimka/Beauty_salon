@@ -81,7 +81,7 @@
         </div>
 
         {% if beauty_services %}
-        <div class="row servicesSlider">
+          <div class="row servicesSlider">
           {% for beauty_service in beauty_services %}
             <div class="col-md-3 {% if beauty_service.is_fake %} decVis {% endif %}">
               <div class="cardBlock services__block">
@@ -115,145 +115,41 @@
           </div>
         </div>
 
-        <div class="row mastersSlider">
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master1.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Елизавета Лапина</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">24 отзыва</div>
+        {% if specialists %}
+          <div class="row mastersSlider">
+          {% for specialist in specialists %}
+            <div class="col-md-3 {% if specialist.is_fake %} decVis {% endif %}">
+              <div class="cardBlock masters__block">
+                <div class="masters__header fic">
+                  <img src="{{ specialist.photo.url }}" alt="master" class="masters__header_img"/>
+                  <div class="masters__header_elmes">
+                    <div class="masters__header_name">{{ specialist.name }}</div>
+                    <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
+                    <div class="masters__header_reviews">{{ specialist.rating }} отзывов</div>
+                  </div>
                 </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Мастер маникюра</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">3 г. 10 мес.</div>
+                <div class="masters__main">
+                  <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
+                  <div class="masters__main_intro">{{ specialist.spec }}</div>
                 </div>
-                <button class="masters__footer_btn">Записаться</button>
+                <div class="masters__footer fic">
+                  <div class="masters__footer_block">
+                    <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
+                    <div class="masters__footer_num">{{ specialist.experience }}</div>
+                  </div>
+                  <a href="{% url 'service' %}" style="text-decoration: none;">
+                    <button class="masters__footer_btn">Записаться</button>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master2.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Анастасия Сергеева</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">96 отзывов</div>
-                </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Парикмахер</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">4 г. 9 мес.</div>
-                </div>
-                <button class="masters__footer_btn">Записаться</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master3.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Ева Колесова</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">18 отзывов</div>
-                </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Визажист</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">1 г. 2 мес.</div>
-                </div>
-                <button class="masters__footer_btn">Записаться</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master4.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Мария Суворова</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">32 отзыва</div>
-                </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Стилист</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">1 г. 1 мес.</div>
-                </div>
-                <button class="masters__footer_btn">Записаться</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master5.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Мария Максимова</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">42 отзыва</div>
-                </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Стилист</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">3 г. 1 мес.</div>
-                </div>
-                <button class="masters__footer_btn">Записаться</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="cardBlock masters__block">
-              <div class="masters__header fic">
-                <img src="{% static 'img/masters/master6.svg' %}" alt="master" class="masters__header_img"/>
-                <div class="masters__header_elmes">
-                  <div class="masters__header_name">Майя Соболева</div>
-                  <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
-                  <div class="masters__header_reviews">32 отзыва</div>
-                </div>
-              </div>
-              <div class="masters__main">
-                <div class="masters__main_speciality">СПЕЦИАЛЬНОСТЬ:</div>
-                <div class="masters__main_intro">Визажист</div>
-              </div>
-              <div class="masters__footer fic">
-                <div class="masters__footer_block">
-                  <div class="masters__footer_light">СТАЖ РАБОТЫ:</div>
-                  <div class="masters__footer_num">1 г. 1 мес.</div>
-                </div>
-                <button class="masters__footer_btn">Записаться</button>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
+        {% else %}
+          <div>К сожалению, сейчас нет активных мастеров :(</div>
+        {% endif %}
+
+
+
         </div>
       </div>
     </div>
@@ -274,19 +170,19 @@
           </div>
         </div>
         {% if reviews %}
-        <div class="row reviewsSlider">
-        {% for review in reviews %}
+          <div class="row reviewsSlider">
+          {% for review in reviews %}
 
-          <div class="col-md-3 {% if review.is_fake %} decVis {% endif %}">
-            <div class="reviews__block">
-              <div class="reviews__name">{{ review.appointment.name }}</div>
-              <img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating"/>
-              <div class="reviews__block_text">{{ review.review }}
+            <div class="col-md-3 {% if review.is_fake %} decVis {% endif %}">
+              <div class="reviews__block">
+                <div class="reviews__name">{{ review.appointment.name }}</div>
+                <img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating"/>
+                <div class="reviews__block_text">{{ review.review }}
+                </div>
+                <div class="reviews__block_date">{{ review.appointment.date }} </div>
               </div>
-              <div class="reviews__block_date">{{ review.appointment.date }} </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
         {% else %}
           <div>К сожалению, пока нет отзывов :( Напиши его первым!</div>
         {% endif %}

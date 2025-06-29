@@ -26,7 +26,14 @@ def show_index(request):
         fake_block.is_fake = True
         reviews.append(fake_block)
 
-    specialists = list(Specialist.objects.all())
+    specialists = list(Specialist.objects.all()) 
+    for specialist in specialists: #TODO: посчитать рейтинг! (вставка звездочек)
+        total_reviews = 0
+        for appointment in specialist.appointments.all():
+            total_reviews += appointment.clientreview_set.count()
+        specialist.rating = total_reviews
+
+
     while len(specialists) < 4 and specialists:
         fake_block = Specialist.objects.first()
         fake_block.is_fake = True
