@@ -198,20 +198,30 @@
         <div class="title contacts__title">Контакты</div>
         <div class="row">
           <div class="col-md-12 col-lg-4 col-xl-3">
-            <form id="consultationForm" class="contacts__form">
-              <div class="contacts__form_title">Оставьте заявку на консультацию</div>
-              <div class="contacts__form_block">
-                <input type="text" name="fname" class="contacts__form_iunput" placeholder="Введите имя" required/>
-                <div class="contacts__form_inputBlock">
-                  <input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required/>
-                </div>
+            <form method="POST">
+              {% csrf_token %}
+
+              <div class="contacts__form_title">
+                Введите Ваши данные
               </div>
-              <textarea name="contactsTextarea" class="contacts__form_textarea"
-                        placeholder="Вопрос (необязательно)"></textarea>
+
+              <div class="contacts__form_block">
+                {{ form.name }}
+              </div>
+
+              <div class="contacts__form_inputBlock">
+                {{ form.phone_number }}
+              </div>
+
+              <div class="contacts__form_block">
+                {{ form.description }}
+              </div>
+
               <div class="contacts__form_checkboxBlock fic">
                 <input type="checkbox" id="consentCheckbox" class="contacts__form_checkbox" required checked/>
                 <span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфиденциальности</span>
               </div>
+
               <button type="submit" class="contacts__form_btn">Отправить</button>
             </form>
           </div>

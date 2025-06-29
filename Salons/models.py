@@ -32,7 +32,7 @@ class Salon(models.Model):
 
 class Review(models.Model):
     phone_number = models.BigIntegerField()
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=100)
 
 

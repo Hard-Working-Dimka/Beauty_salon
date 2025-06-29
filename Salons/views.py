@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .forms import QuestionForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
 
@@ -27,19 +28,21 @@ def show_index(request):
         reviews.append(fake_block)
 
     specialists = list(Specialist.objects.all())
-    for specialist in specialists: #TODO: посчитать рейтинг! (вставка звездочек)
+    for specialist in specialists:  # TODO: посчитать рейтинг! (вставка звездочек)
         total_reviews = 0
         for appointment in specialist.appointments.all():
             total_reviews += appointment.clientreview_set.count()
         specialist.rating = total_reviews
-
 
     while len(specialists) < 4 and specialists:
         fake_block = Specialist.objects.first()
         fake_block.is_fake = True
         specialists.append(fake_block)
 
-
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
 
     context = {
         "error": error,
@@ -48,6 +51,7 @@ def show_index(request):
         "beauty_services": beauty_services,
         "reviews": reviews,
         "specialists": specialists,
+        "form": form,
     }
     return render(request, "index.html", context=context)
 
