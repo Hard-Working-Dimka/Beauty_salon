@@ -94,18 +94,19 @@ def ajax_load_salons(request):
         },
         request=request,
     )
-    print(rendered_template)
     return JsonResponse({"template": rendered_template}, safe=False)
 
 
 def ajax_load_beauty_services(request):
-    service_types = ServiceType.objects.all().prefetch_related("services")
+    salon_id = request.GET.get('salon_id', None)
+    services = BeautyService.objects.all().select_related("service_type")
+    if salon_id:
+        services = services.filter(specialists__salon=salon_id)
     rendered_template = render_to_string(
         "partial_beauty_services.html",
         {
-            "service_types": service_types
+            "services": services
         },
         request=request,
     )
-    print(rendered_template)
     return JsonResponse({"template": rendered_template}, safe=False)

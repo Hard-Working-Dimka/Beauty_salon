@@ -1,10 +1,6 @@
-{% for service_type in service_types %}
- {% if service_type.services %}
-      {% for service in service_type.services.all %}
+{% for service in services %}
         <div class="accordion__block fic">
-          <div class="accordion__block_intro">{{ service_type.name }} {{ service.name }}</div>
+          <div class="accordion__block_intro" id={{service.id}}>{{ service.service_type.name }}: {{ service.name }}</div>
           <div class="accordion__block_address">{{ service.price }} ₽</div>
         </div>
-      {% endfor %}
-  {% endif %}
 {% endfor %}
