@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class ServiceType(models.Model):
@@ -64,7 +65,7 @@ class Appointment(models.Model):
     slot = models.TimeField()
     duration_min = models.IntegerField()
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='appointments')
-    phone_number = models.BigIntegerField()
+    phone_number = PhoneNumberField("Номер телефона", null=False, blank=False, unique=True)
     is_paid = models.BooleanField(default=False)
     service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
     Promo = models.ForeignKey(Promo, null=True, blank=True, on_delete=models.SET_NULL)

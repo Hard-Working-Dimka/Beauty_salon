@@ -1,5 +1,6 @@
 from django import forms
 
+from CustomUser.models import User
 from Salons.models import Review
 
 
@@ -27,3 +28,10 @@ class QuestionForm(forms.ModelForm):
         }),
         required=False
     )
+
+
+class ProfileUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['phonenumber', 'avatar', 'name']
+    #TODO: сделать красивые поля в отображении html

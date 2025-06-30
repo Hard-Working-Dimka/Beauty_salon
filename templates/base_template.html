@@ -164,7 +164,7 @@
                     class="accaunt__ava_img"
                   />
                   
-                  <span class="accaunt__ava_name">{{ user.name }}</span>
+                  <a href="{% url 'profile' %}" style="text-decoration: none;" class="accaunt__ava_name">{{ user.name }} </a>
                   <a
                     href="{% url 'users:logout' %}?from={{ request.get_full_path }}"
                     class="accaunt__settings_out"

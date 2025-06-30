@@ -26,14 +26,14 @@ from Salons.views import (
     show_serviceFinaly,
     ajax_load_salons,
     ajax_load_beauty_services,
-    ajax_load_specialists,
+    ajax_load_specialists, edit_profile,
 )
 
 urlpatterns = [
     path("users/", include("CustomUser.urls")),
     path("admin/", admin.site.urls),
     path("", show_index, name="main"),
-    path("notes/", show_notes),
+    path("notes/", show_notes, name="profile"),
     path("service/", show_service, name="service"),
     path("serviceF/", show_serviceFinaly, name="serviceFinally"),
     path("ajax_load_salons/", ajax_load_salons, name="ajax_load_salons"),
@@ -43,4 +43,5 @@ urlpatterns = [
         name="ajax_load_beauty_services",
     ),
     path("ajax_load_specialists/", ajax_load_specialists, name="ajax_load_specialists"),
+    path("edit_profile/", edit_profile, name = "edit_profile"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

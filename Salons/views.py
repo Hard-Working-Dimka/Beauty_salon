@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from .models import Appointment
 from django.utils.timezone import now
 
-from .forms import QuestionForm
+from .forms import QuestionForm, ProfileUserForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
 
@@ -81,10 +81,10 @@ def show_index(request):
 @login_required
 def show_notes(request):
     today = now().date()
-    user_national_phone = ''.join(filter(str.isdigit, str(request.user.phonenumber)))
+    user_phone = request.user.phonenumber
 
     all_appointments = Appointment.objects.filter(
-        phone_number__endswith=user_national_phone
+        phone_number=user_phone
     ).select_related('specialist', 'service', 'Promo', 'specialist__salon')
 
     upcoming = all_appointments.filter(date__gte=today).order_by('date', 'slot')
@@ -147,3 +147,21 @@ def ajax_load_specialists(request):
         request=request,
     )
     return JsonResponse({"template": rendered_template}, safe=False)
+
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = ProfileUserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+    else:
+
+        form = ProfileUserForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user,
+    }
+    return render(request, "profile_edit.html", context=context)
