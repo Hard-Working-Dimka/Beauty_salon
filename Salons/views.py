@@ -64,14 +64,10 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    salons = Salon.objects.all()
-    service_types = ServiceType.objects.all().prefetch_related("services")
     specialists = Specialist.objects.all()
     context = {
         "error": error,
         "show_popup": show_popup,
-        "salons": salons,
-        "service_types": service_types,
         "specialists": specialists,
     }
     return render(request, "service.html", context=context)
@@ -86,15 +82,23 @@ def show_serviceFinaly(request):
 
 def ajax_load_salons(request):
     salons = Salon.objects.all()
-    #TODO убрать dummydata
     rendered_template = render_to_string(
         "partial_salons.html",
         {
-            "salons": [
-                {"id": 1, "name": 1, "address": 1},
-                {"id": 2, "name": 2, "address": 2},
-                {"id": 3, "name": 3, "address": 3},
-            ]
+            "salons": salons
+        },
+        request=request,
+    )
+    print(rendered_template)
+    return JsonResponse({"template": rendered_template}, safe=False)
+
+
+def ajax_load_beauty_services(request):
+    service_types = ServiceType.objects.all().prefetch_related("services")
+    rendered_template = render_to_string(
+        "partial_beauty_services.html",
+        {
+            "service_types": service_types
         },
         request=request,
     )

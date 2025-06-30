@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from Salons.views import show_index, show_notes, show_service, show_serviceFinaly, ajax_load_salons
+from Salons.views import show_index, show_notes, show_service, show_serviceFinaly, ajax_load_salons, ajax_load_beauty_services
 
 urlpatterns = [
     path('users/', include('CustomUser.urls')),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('service/', show_service, name='service'),
     path('serviceF/', show_serviceFinaly, name='serviceFinally'),
     path('ajax_load_salons/', ajax_load_salons, name='ajax_load_salons'),
+    path('ajax_load_beauty_services/', ajax_load_beauty_services, name='ajax_load_beauty_services'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
