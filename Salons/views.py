@@ -7,6 +7,15 @@ from .forms import QuestionForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
 
+RATING = {
+    0: '☆☆☆☆☆',
+    1: '★☆☆☆☆',
+    2: '★★☆☆☆',
+    3: '★★★☆☆',
+    4: '★★★★☆',
+    5: '★★★★★',
+}
+
 
 def show_index(request):
     error = request.session.pop("error", None)
@@ -33,9 +42,15 @@ def show_index(request):
     specialists = list(Specialist.objects.all())
     for specialist in specialists:  # TODO: посчитать рейтинг! (вставка звездочек)
         total_reviews = 0
+        total_rating = 0
         for appointment in specialist.appointments.all():
-            total_reviews += appointment.clientreview_set.count()
+            if appointment.client_rating:
+                total_reviews += 1
+                total_rating += int(appointment.client_rating.rating)
+        total_rating = RATING.get(total_rating // total_reviews)
+
         specialist.rating = total_reviews
+        specialist.total_rating = total_rating
 
     while len(specialists) < 4 and specialists:
         fake_block = Specialist.objects.first()

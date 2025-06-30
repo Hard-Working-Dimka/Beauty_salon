@@ -2977,3 +2977,11 @@ footer {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
+.rating-stars {
+    color: gold;
+    font-size: 20px !important;
+    display: inline-block;
+    margin-top: 2px;
+    line-height: 1;
+}

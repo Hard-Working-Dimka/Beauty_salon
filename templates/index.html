@@ -124,7 +124,7 @@
                   <img src="{{ specialist.photo.url }}" alt="master" class="masters__header_img"/>
                   <div class="masters__header_elmes">
                     <div class="masters__header_name">{{ specialist.name }}</div>
-                    <img src="{% static 'img/rating.svg' %}" alt="rating" class="masters__header_rating"/>
+                    <div class="rating-stars">{{ specialist.total_rating }}</div>
                     <div class="masters__header_reviews">{{ specialist.rating }} отзывов</div>
                   </div>
                 </div>
@@ -175,11 +175,12 @@
 
             <div class="col-md-3 {% if review.is_fake %} decVis {% endif %}">
               <div class="reviews__block">
-                <div class="reviews__name">{{ review.appointment.name }}</div>
-                <img src="{% static 'img/rating.svg' %}" alt="rating" class="reviews__header_rating"/>
-                <div class="reviews__block_text">{{ review.review }}
+                <div class="reviews__name">
+                  {{ review.appointment.name }}<br>
+                  <span class="rating-stars">{{ review.get_rating_display }}</span>
                 </div>
-                <div class="reviews__block_date">{{ review.appointment.date }} </div>
+                <div class="reviews__block_text">{{ review.review }}</div>
+                <div class="reviews__block_date">{{ review.appointment.date }}</div>
               </div>
             </div>
           {% endfor %}
@@ -235,17 +236,19 @@
           </div>
           <div class="col-md-12 col-lg-3">
             <div class="contacts__locationBlock">
-{% for salon in salons %}
-  {% if salon.is_fake %}
-              <div class="contacts__location fic">
-                <img src="{% static 'img/location.svg' %}" alt="location" class="contacts__location_icon"/>
-                <div class="contacts__location_info">
-                  <div class="contacts__location_intro">{{ salon.address }}</div>
-                  <div class="contacts__location_date">с {{ salon.work_start_at }} до {{ salon.work_end_time }} без выходных</div>
-                </div>
-              </div>
-{% endif %}
-{% endfor %}
+              {% for salon in salons %}
+                {% if salon.is_fake %}
+                  <div class="contacts__location fic">
+                    <img src="{% static 'img/location.svg' %}" alt="location" class="contacts__location_icon"/>
+                    <div class="contacts__location_info">
+                      <div class="contacts__location_intro">{{ salon.address }}</div>
+                      <div class="contacts__location_date">с {{ salon.work_start_at }} до {{ salon.work_end_time }} без
+                        выходных
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
 
             </div>
             <div class="contacts__block">
