@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+
 from .forms import QuestionForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
@@ -40,10 +41,10 @@ def show_index(request):
         fake_block = Specialist.objects.first()
         fake_block.is_fake = True
         specialists.append(fake_block)
-    form = QuestionForm(request.POST)
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
+
+    form = QuestionForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
 
     context = {
         "error": error,
@@ -64,10 +65,14 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
+    salons = Salon.objects.all()
+    service_types = ServiceType.objects.all().prefetch_related("services")
     specialists = Specialist.objects.all()
     context = {
         "error": error,
         "show_popup": show_popup,
+        "salons": salons,
+        "service_types": service_types,
         "specialists": specialists,
     }
     return render(request, "service.html", context=context)
