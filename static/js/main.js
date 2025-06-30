@@ -196,8 +196,12 @@ function addOneMonthToCurrent() {
 		thisAddress = $(this).find('> .accordion__block_address').text()
 		thisId = $(this).find('> .accordion__block_intro').attr('id')
 		console.log(thisName)
-
-		$(this).parent().parent().find('> button.active').addClass('selected').text(thisName + '  ' +thisAddress).attr('id', thisId) 
+		if (thisId) {
+			$(this).parent().parent().find('> button.active').addClass('selected').text(thisName + '  ' +thisAddress).attr('id', thisId) 
+		}
+		else{
+		$(this).parent().parent().find('> button.active').addClass('selected').text(thisName + '  ' +thisAddress).attr('id', null)
+		}
 		setTimeout(() => {
 			$(this).parent().parent().find('> button.active').click()
 		}, 200)
