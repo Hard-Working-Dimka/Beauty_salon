@@ -142,6 +142,27 @@ $(document).ready(function() {
 	  });
 	}
 
+	$(document).on('click', '.ajax_service_salon', function(e) {
+		$.ajax({
+			url: '/ajax_load_salons/',
+			data: {
+			},
+			success: function(data) {
+				$('.service__salons > .panel').html(data.template)
+			}
+		})
+	})
+	$(document).on('click', '.ajax_service_services', function(e) {
+		$.ajax({
+			url: '/ajax_load_beauty_services/',
+			data: {
+			},
+			success: function(data) {
+				$('.service__services > .panel').html(data.template)
+			}
+		})
+	})
+		
 
 	$(document).on('click', '.accordion__block', function(e) {
 		let thisName,thisAddress;
