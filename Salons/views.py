@@ -47,7 +47,10 @@ def show_index(request):
             if appointment.client_rating:
                 total_reviews += 1
                 total_rating += int(appointment.client_rating.rating)
-        total_rating = RATING.get(total_rating // total_reviews)
+        if total_reviews == 0:
+            total_rating = RATING.get(0)
+        else:
+            total_rating = RATING.get(total_rating // total_reviews)
 
         specialist.rating = total_reviews
         specialist.total_rating = total_rating
