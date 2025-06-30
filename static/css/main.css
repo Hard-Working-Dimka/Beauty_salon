@@ -1339,6 +1339,9 @@ footer {
 
 .accordion__block_img {
     margin-right: 10px;
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%
 }
 
 .accordion__block_master {

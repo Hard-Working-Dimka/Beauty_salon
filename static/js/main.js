@@ -125,7 +125,7 @@ $(document).ready(function() {
 		$('#mobMenu').hide()
 	})
 
-	new AirDatepicker('#datepickerHere')
+	new AirDatepicker('#datepickerHere',{minDate: new Date()})
 
 	var acc = document.getElementsByClassName("accordion");
 	var i;
