@@ -1,6 +1,6 @@
 {% for service in services %}
-        <div class="accordion__block fic">
-          <div class="accordion__block_intro" id={{service.id}}>{{ service.service_type.name }}: {{ service.name }}</div>
-          <div class="accordion__block_address">{{ service.price }} ₽</div>
-        </div>
+  <div class="accordion__block fic">
+    <div class="accordion__block_intro" id="{{ service.id }}">{{ service.service_type.name }}: {{ service.name }}</div>
+    <div class="accordion__block_address">{{ service.price }} ₽</div>
+  </div>
 {% endfor %}
