@@ -84,7 +84,7 @@ class ClientReview(models.Model):
         ('5', '★★★★★'),
     ]
 
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, verbose_name='client_reviews')
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name='client_rating')
     phone_number = models.BigIntegerField()
     review = models.TextField()
     rating = models.CharField(max_length=1, choices=RATING_CHOICES)
