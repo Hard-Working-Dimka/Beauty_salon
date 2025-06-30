@@ -166,7 +166,7 @@
                           class="accaunt__ava_img"
                     />
 
-                    <a style="margin-right: 15px;" href="{% url 'profile' %}" style="text-decoration: none;" class="accaunt__ava_name">
+                    <a style="margin-right: 15px; text-decoration: none;" href="{% url 'profile' %}" class="accaunt__ava_name">
                       {% if  user.avatar %} {{ user.name }} {% else %} User {% endif %}  </a>
 
                     <a
