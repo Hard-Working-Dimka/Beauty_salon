@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from .models import Appointment
+from django.utils.timezone import now
 
 from .forms import QuestionForm
 
@@ -40,20 +42,20 @@ def show_index(request):
         reviews.append(fake_block)
 
     specialists = list(Specialist.objects.all())
-    for specialist in specialists:  # TODO: посчитать рейтинг! (вставка звездочек)
+    for specialist in specialists:
         total_reviews = 0
         total_rating = 0
         for appointment in specialist.appointments.all():
-            if appointment.client_rating:
+            if hasattr(appointment, 'client_rating'):
                 total_reviews += 1
                 total_rating += int(appointment.client_rating.rating)
         if total_reviews == 0:
-            total_rating = RATING.get(0)
+            total_rating_display = RATING.get(0)
         else:
-            total_rating = RATING.get(total_rating // total_reviews)
+            total_rating_display = RATING.get(total_rating // total_reviews)
 
         specialist.rating = total_reviews
-        specialist.total_rating = total_rating
+        specialist.total_rating = total_rating_display
 
     while len(specialists) < 4 and specialists:
         fake_block = Specialist.objects.first()
@@ -76,8 +78,22 @@ def show_index(request):
     return render(request, "index.html", context=context)
 
 
+@login_required
 def show_notes(request):
-    return render(request, "notes.html")
+    today = now().date()
+    user_national_phone = ''.join(filter(str.isdigit, str(request.user.phonenumber)))
+
+    all_appointments = Appointment.objects.filter(
+        phone_number__endswith=user_national_phone
+    ).select_related('specialist', 'service', 'Promo', 'specialist__salon')
+
+    upcoming = all_appointments.filter(date__gte=today).order_by('date', 'slot')
+    past = all_appointments.filter(date__lt=today).order_by('-date', '-slot')
+
+    return render(request, "notes.html", {
+        "upcoming_appointments": upcoming,
+        "past_appointments": past
+    })
 
 
 def show_service(request):
