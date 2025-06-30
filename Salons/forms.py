@@ -2,6 +2,7 @@ from django import forms
 
 from CustomUser.models import User
 from Salons.models import Review
+from django.forms import widgets
 
 
 class QuestionForm(forms.ModelForm):
@@ -34,4 +35,19 @@ class ProfileUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['phonenumber', 'avatar', 'name']
-    #TODO: сделать красивые поля в отображении html
+        widgets = {
+            'phonenumber': widgets.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите ваш номер телефона',
+                'style': 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;'
+            }),
+            'avatar': widgets.ClearableFileInput(attrs={
+                'class': 'form-control',
+                'style': 'width: 100%; padding: 10px; border-radius: 5px;'
+            }),
+            'name': widgets.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите ваше имя',
+                'style': 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;'
+            })
+        }
