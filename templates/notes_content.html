@@ -1,5 +1,3 @@
-<!-- templates/notes_content.html -->
-
 <div class="notes__content notes__content_upcoming">
   <div class="notes__main_title">ПРЕДСТОЯЩИЕ</div>
 
@@ -20,23 +18,23 @@
         <div class="notes__main_block__main">
           <div class="notes__main_block__main_items">
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__intro">Услуга:</div>
-              <div class="notes__main_block__main_elems__intro">Цена:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Услуга:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Цена:</div>
             </div>
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__name">{{ appointment.service.name }}</div>
-              <div class="notes__main_block__main_elems__price">{{ appointment.service.price }} руб</div>
+              <div class="notes__main_block__main_elems__name otes__main_blockWidth">{{ appointment.service.name }}</div>
+              <div class="notes__main_block__main_elems__price otes__main_blockWidth">{{ appointment.service.price }} руб</div>
             </div>
           </div>
 
           <div class="notes__main_block__main_items">
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__intro">Мастер:</div>
-              <div class="notes__main_block__main_elems__intro">Дата и время:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Мастер:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Дата и время:</div>
             </div>
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__name">{{ appointment.specialist.name }}</div>
-              <div class="notes__main_block__main_elems__date">{{ appointment.date }} - {{ appointment.slot|time:"H:i" }}</div>
+              <div class="notes__main_block__main_elems__name otes__main_blockWidth">{{ appointment.specialist.name }}</div>
+              <div class="notes__main_block__main_elems__date otes__main_blockWidth">{{ appointment.date }} - {{ appointment.slot|time:"H:i" }}</div>
             </div>
           </div>
         </div>
@@ -48,9 +46,6 @@
           {% if not appointment.is_paid %}
             <button class="notes__footer_btn payPopupOpen">Оплатить</button>
           {% endif %}
-          <div class="notes__main_pay {% if not appointment.is_paid %}unPaid{% else %}payid{% endif %}">
-            {% if appointment.is_paid %}ОПЛАЧЕНО{% else %}НЕОПЛАЧЕНО{% endif %}
-          </div>
         </div>
       </div>
     </div>
@@ -77,23 +72,23 @@
         <div class="notes__main_block__main">
           <div class="notes__main_block__main_items">
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__intro">Услуга:</div>
-              <div class="notes__main_block__main_elems__intro">Цена:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Услуга:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Цена:</div>
             </div>
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__name">{{ appointment.service.name }}</div>
-              <div class="notes__main_block__main_elems__price">{{ appointment.service.price }} руб</div>
+              <div class="notes__main_block__main_elems__name otes__main_blockWidth">{{ appointment.service.name }}</div>
+              <div class="notes__main_block__main_elems__price otes__main_blockWidth">{{ appointment.service.price }} руб</div>
             </div>
           </div>
 
           <div class="notes__main_block__main_items">
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__intro">Мастер:</div>
-              <div class="notes__main_block__main_elems__intro">Дата и время:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Мастер:</div>
+              <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Дата и время:</div>
             </div>
             <div class="notes__main_block__main_elems fic">
-              <div class="notes__main_block__main_elems__name">{{ appointment.specialist.name }}</div>
-              <div class="notes__main_block__main_elems__date">{{ appointment.date }} - {{ appointment.slot|time:"H:i" }}</div>
+              <div class="notes__main_block__main_elems__name otes__main_blockWidth">{{ appointment.specialist.name }}</div>
+              <div class="notes__main_block__main_elems__date otes__main_blockWidth">{{ appointment.date }} - {{ appointment.slot|time:"H:i" }}</div>
             </div>
           </div>
         </div>
@@ -102,7 +97,6 @@
         <div class="notes__footer fic">
           <a href="#" class="notes__footer_link rewiewPopupOpen">Оставить отзыв</a>
           <a href="#" class="notes__footer_link tipsPopupOpen">Чаевые</a>
-          <div class="notes__main_pay payid">ОПЛАЧЕНО</div>
         </div>
       </div>
     </div>
