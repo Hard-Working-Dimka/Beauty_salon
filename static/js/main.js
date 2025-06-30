@@ -142,6 +142,19 @@ $(document).ready(function() {
 	  });
 	}
 
+	$(document).on('click', '.service__salons', function(e) {
+		let thisName,thisAddress;
+
+		$.ajax({
+			url: '/ajax_load_salons/',
+			data: {
+			},
+			success: function(data) {
+				$('.service__salons > .panel').html(data.template)
+			}
+		})
+	})
+		
 
 	$(document).on('click', '.accordion__block', function(e) {
 		let thisName,thisAddress;

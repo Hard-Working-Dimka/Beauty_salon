@@ -1,5 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
 from .forms import QuestionForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
@@ -38,9 +40,8 @@ def show_index(request):
         fake_block = Specialist.objects.first()
         fake_block.is_fake = True
         specialists.append(fake_block)
-
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
+    form = QuestionForm(request.POST)
+    if request.method == "POST":
         if form.is_valid():
             form.save()
 
@@ -81,3 +82,21 @@ def show_serviceFinaly(request):
     show_popup = request.session.get("show_popup", False)
     context = {"error": error, "show_popup": show_popup}
     return render(request, "serviceFinally.html", context=context)
+
+
+def ajax_load_salons(request):
+    salons = Salon.objects.all()
+    #TODO убрать dummydata
+    rendered_template = render_to_string(
+        "partial_salons.html",
+        {
+            "salons": [
+                {"id": 1, "name": 1, "address": 1},
+                {"id": 2, "name": 2, "address": 2},
+                {"id": 3, "name": 3, "address": 3},
+            ]
+        },
+        request=request,
+    )
+    print(rendered_template)
+    return JsonResponse({"template": rendered_template}, safe=False)
