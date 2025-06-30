@@ -39,10 +39,9 @@ def show_index(request):
         fake_block.is_fake = True
         specialists.append(fake_block)
 
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            form.save()
+    form = QuestionForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
 
     context = {
         "error": error,
