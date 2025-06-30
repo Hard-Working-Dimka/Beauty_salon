@@ -125,7 +125,16 @@ $(document).ready(function() {
 		$('#mobMenu').hide()
 	})
 
-	new AirDatepicker('#datepickerHere',{minDate: new Date()})
+	new AirDatepicker('#datepickerHere',
+		{
+			minDate: new Date(),
+			maxDate: addOneMonthToCurrent()
+
+		})
+function addOneMonthToCurrent() {
+    let now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());  // Добавляем 1 месяц
+}
 
 	var acc = document.getElementsByClassName("accordion");
 	var i;
