@@ -26,6 +26,7 @@ from Salons.views import (
     show_serviceFinaly,
     ajax_load_salons,
     ajax_load_beauty_services,
+    ajax_load_specialists,
 )
 
 urlpatterns = [
@@ -41,4 +42,5 @@ urlpatterns = [
         ajax_load_beauty_services,
         name="ajax_load_beauty_services",
     ),
+    path("ajax_load_specialists/", ajax_load_specialists, name="ajax_load_specialists"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

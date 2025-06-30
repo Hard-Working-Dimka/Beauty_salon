@@ -41,17 +41,8 @@
           </div>
         </div>
         <div class="service__form_block service__masters">
-          <button class="accordion">(Выберите мастера)</button>
+          <button class="accordion ajax_service_masters">(Выберите мастера)</button>
           <div class="panel">
-            {% for specialist in specialists %}
-              <div class="accordion__block fic">
-                <div class="accordion__block_elems fic">
-                  <img src="{{specialist.photo.url}}" alt="avatar" class="accordion__block_img">
-                  <div class="accordion__block_master">{{specialist.name}}</div>
-                </div>
-                <div class="accordion__block_prof">{{specialist.spec}}</div>
-              </div>
-            {% endfor %}
           </div>
         </div>
       </form>

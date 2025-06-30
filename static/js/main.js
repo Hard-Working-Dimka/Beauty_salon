@@ -175,6 +175,19 @@ function addOneMonthToCurrent() {
 		})
 	})
 		
+		$(document).on('click', '.ajax_service_masters', function(e) {
+		current_salon_id = $('.ajax_service_salon').attr('id')
+		console.log(current_salon_id)
+		$.ajax({
+			url: '/ajax_load_specialists/',
+			data: {
+				'salon_id': current_salon_id
+			},
+			success: function(data) {
+				$('.service__masters > .panel').html(data.template)
+			}
+		})
+	})
 
 	$(document).on('click', '.accordion__block', function(e) {
 		let thisName,thisAddress;

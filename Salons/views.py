@@ -43,7 +43,7 @@ def show_index(request):
         specialists.append(fake_block)
 
     form = QuestionForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
+    if request.method == "POST" and form.is_valid():
         form.save()
 
     context = {
@@ -65,15 +65,9 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    salons = Salon.objects.all()
-    service_types = ServiceType.objects.all().prefetch_related("services")
-    specialists = Specialist.objects.all()
     context = {
         "error": error,
         "show_popup": show_popup,
-        "salons": salons,
-        "service_types": service_types,
-        "specialists": specialists,
     }
     return render(request, "service.html", context=context)
 
@@ -89,24 +83,33 @@ def ajax_load_salons(request):
     salons = Salon.objects.all()
     rendered_template = render_to_string(
         "partial_salons.html",
-        {
-            "salons": salons
-        },
+        {"salons": salons},
         request=request,
     )
     return JsonResponse({"template": rendered_template}, safe=False)
 
 
 def ajax_load_beauty_services(request):
-    salon_id = request.GET.get('salon_id', None)
+    salon_id = request.GET.get("salon_id", None)
     services = BeautyService.objects.all().select_related("service_type")
     if salon_id:
         services = services.filter(specialists__salon=salon_id)
     rendered_template = render_to_string(
         "partial_beauty_services.html",
-        {
-            "services": services
-        },
+        {"services": services},
+        request=request,
+    )
+    return JsonResponse({"template": rendered_template}, safe=False)
+
+
+def ajax_load_specialists(request):
+    salon_id = request.GET.get("salon_id", None)
+    specialists = Specialist.objects.all()
+    if salon_id:
+        specialists = specialists.filter(salon__id=salon_id)
+    rendered_template = render_to_string(
+        "partial_specialists.html",
+        {"specialists": specialists},
         request=request,
     )
     return JsonResponse({"template": rendered_template}, safe=False)
