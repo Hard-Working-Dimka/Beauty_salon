@@ -1,5 +1,8 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+
 from .forms import QuestionForm
 
 from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
@@ -80,3 +83,29 @@ def show_serviceFinaly(request):
     show_popup = request.session.get("show_popup", False)
     context = {"error": error, "show_popup": show_popup}
     return render(request, "serviceFinally.html", context=context)
+
+
+def ajax_load_salons(request):
+    salons = Salon.objects.all()
+    rendered_template = render_to_string(
+        "partial_salons.html",
+        {
+            "salons": salons
+        },
+        request=request,
+    )
+    print(rendered_template)
+    return JsonResponse({"template": rendered_template}, safe=False)
+
+
+def ajax_load_beauty_services(request):
+    service_types = ServiceType.objects.all().prefetch_related("services")
+    rendered_template = render_to_string(
+        "partial_beauty_services.html",
+        {
+            "service_types": service_types
+        },
+        request=request,
+    )
+    print(rendered_template)
+    return JsonResponse({"template": rendered_template}, safe=False)
