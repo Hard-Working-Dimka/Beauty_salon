@@ -65,7 +65,7 @@ class Appointment(models.Model):
     slot = models.TimeField()
     duration_min = models.IntegerField()
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='appointments')
-    phone_number = PhoneNumberField("Номер телефона", null=False, blank=False, unique=True)
+    phone_number = PhoneNumberField("Номер телефона", null=False, blank=False)
     is_paid = models.BooleanField(default=False)
     service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
     Promo = models.ForeignKey(Promo, null=True, blank=True, on_delete=models.SET_NULL)
