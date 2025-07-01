@@ -1,13 +1,15 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from .models import Appointment
 from django.utils.timezone import now
+from django.shortcuts import redirect
+from datetime import datetime
 
 from .forms import QuestionForm, ProfileUserForm
 
-from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
+from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview, Review
 
 RATING = {
     0: '☆☆☆☆☆',
@@ -90,9 +92,10 @@ def show_notes(request):
     upcoming = all_appointments.filter(date__gte=today).order_by('date', 'slot')
     past = all_appointments.filter(date__lt=today).order_by('-date', '-slot')
 
+
     return render(request, "notes.html", {
         "upcoming_appointments": upcoming,
-        "past_appointments": past
+        "past_appointments": past,
     })
 
 
@@ -165,3 +168,58 @@ def edit_profile(request):
         'user': user,
     }
     return render(request, "profile_edit.html", context=context)
+
+
+@login_required
+def send_review(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        phone_raw = request.POST.get("phone_number", "").strip()
+        description = request.POST.get("description", "")
+        rating = request.POST.get("rating")
+        visit_date_raw = request.POST.get("dateVis")
+
+        visit_date = None
+        if visit_date_raw:
+            try:
+                visit_date = datetime.strptime(visit_date_raw, "%Y-%m-%d").date()
+            except ValueError:
+                pass
+
+        try:
+            appointment = Appointment.objects.filter(
+                phone_number=phone_raw,
+                date=visit_date
+            ).first()
+
+            if appointment and not hasattr(appointment, 'client_rating'):
+                ClientReview.objects.create(
+                    appointment=appointment,
+                    phone_number=phone_raw,
+                    review=description,
+                    rating=rating,
+                )
+                return render(request, "review_success.html")
+        except ValueError:
+            pass
+
+    return redirect("profile")
+
+
+def send_payment(request):
+    if request.method == 'POST':
+        appointment_id = request.POST.get('appointment_id')
+        tips_amount = request.POST.get('tips_amount')
+
+        if appointment_id:
+            appointment = get_object_or_404(Appointment, id=appointment_id)
+            appointment.is_paid = True
+            appointment.save()
+        elif tips_amount:
+            print(f"Получены чаевые: {tips_amount}")
+
+        return redirect('payment_success')
+
+
+def payment_success(request):
+    return render(request, "payment_success.html")

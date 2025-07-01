@@ -41,10 +41,17 @@
 
         <hr class="notes__block_hr" />
         <div class="notes__footer fic">
-          <a href="#" class="notes__footer_link rewiewPopupOpen">Оставить отзыв</a>
+          <a href="#"
+             class="notes__footer_link rewiewPopupOpen"
+             data-name="{{ appointment.client_name|default:user.name }}"
+             data-phone="{{ appointment.phone_number|stringformat:'s' }}"
+             data-date="{{ appointment.date|date:'Y-m-d' }}"
+          >
+             Оставить отзыв
+          </a>
           <a href="#" class="notes__footer_link tipsPopupOpen">Чаевые</a>
           {% if not appointment.is_paid %}
-            <button class="notes__footer_btn payPopupOpen">Оплатить</button>
+            <button class="notes__footer_btn payPopupOpen" data-id="{{ appointment.id }}">Оплатить</button>
           {% endif %}
         </div>
       </div>

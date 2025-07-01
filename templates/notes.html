@@ -77,7 +77,10 @@
         <img src="{% static 'img/x.svg' %}" alt="x"/>
       </div>
       <div class="popup__title paymentPopup__title">Оплата</div>
-      <form action="#" class="paymentPopup__form">
+      <form action="{% url 'send_payment' %}" method="post" class="paymentPopup__form">
+        {% csrf_token %}
+        <input type="hidden" name="appointment_id" id="appointment_id_input" />
+        <input type="hidden" name="tips_amount" id="tips_amount_input">
         <div class="paymentPopup__form_intro popup__intro">номер карты</div>
         <input type="text" name="tel" class="paymentPopup__form_input popup__input" placeholder="Введите номер"
                required=""/>
@@ -92,7 +95,7 @@
         </div>
         <div class="paymentPopup__form_intro popup__intro">Ваш e-mail(необязательно)</div>
         <input type="email" name="tel" class="paymentPopup__form_input popup__input" placeholder="pochta@mail.ru"/>
-        <button class="tipsPopup__btn popup__btn">Оплатить</button>
+        <button type="submit" class="popup__btn">Оплатить</button>
       </form>
     </div>
   </div>
@@ -117,21 +120,33 @@
         <img src="{% static 'img/x.svg' %}" alt="x"/>
       </div>
       <div class="popup__title reviewPopup__title">Отзыв</div>
-      <form action="#" class="reviewPopup__form">
-        <input type="text" name="fname" class="paymentPopup__form_input popup__input" placeholder="Введите имя"
-               required=""/>
-        <div class="contacts__form_inputBlock">
-          <input type="text" name="tel" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required=""/>
-        </div>
-        <input type="text" name="dateVis" class="paymentPopup__form_input popup__input" placeholder="Дата посещения"
-               required=""/>
-        <textarea name="popupTextarea" class="reviewPopup__form_textarea" placeholder="Текст отзыва"></textarea>
-        <div class="contacts__form_checkboxBlock fic">
-          <input type="checkbox" class="contacts__form_checkbox" checked=""/>
-          <span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
-        </div>
-        <button class="tipsPopup__btn popup__btn">Оплатить</button>
-      </form>
+      <form action="{% url 'send_review' %}" method="post" class="reviewPopup__form">
+        {% csrf_token %}
+      <input type="text" name="name" class="paymentPopup__form_input popup__input" placeholder="Введите имя" required />
+
+      <div class="contacts__form_inputBlock">
+        <input type="text" name="phone_number" class="contacts__form_iunput" placeholder="+7(999)999--99-99" required />
+      </div>
+
+      <input type="date" name="dateVis" class="paymentPopup__form_input popup__input" required />
+
+    <div class="rating-block" style="margin-top: 10px;">
+      <label style="display: block; margin-bottom: 5px;">Оценка:</label>
+      <div class="rating-stars" style="display: flex; flex-direction: column; gap: 5px;">
+        <label><input type="radio" name="rating" value="1" required />★☆☆☆☆</label>
+        <label><input type="radio" name="rating" value="2" />★★☆☆☆</label>
+        <label><input type="radio" name="rating" value="3" />★★★☆☆</label>
+        <label><input type="radio" name="rating" value="4" />★★★★☆</label>
+        <label><input type="radio" name="rating" value="5" />★★★★★</label>
+      </div>
     </div>
+    <textarea name="description" class="reviewPopup__form_textarea" placeholder="Текст отзыва" required></textarea>
+
+    <div class="contacts__form_checkboxBlock fic">
+      <input type="checkbox" class="contacts__form_checkbox" checked />
+      <span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
+    </div>
+    <button class="tipsPopup__btn popup__btn">Отправить Отзыв</button>
+   </form>
   </div>
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base_template.html" %}
+{% block content %}
+  <section class="success-message" style="padding: 80px 20px; text-align: center;">
+    <h1 style="font-size: 32px; color: #28a745;">Спасибо за отзыв!</h1>
+    <p style="font-size: 18px; margin-top: 20px;">Ваш отзыв был успешно отправлен.</p>
+    <a href="{% url 'profile' %}" style="margin-top: 30px; display: inline-block; background-color: #28a745; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
+      Вернуться в профиль
+    </a>
+  </section>
+{% endblock %}
