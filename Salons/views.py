@@ -159,6 +159,7 @@ def edit_profile(request):
         form = ProfileUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            return redirect('profile')
     else:
 
         form = ProfileUserForm(instance=user)

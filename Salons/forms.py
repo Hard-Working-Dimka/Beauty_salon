@@ -50,4 +50,5 @@ class ProfileUserForm(forms.ModelForm):
                 'placeholder': 'Введите ваше имя',
                 'style': 'width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;'
             })
+            ,
         }

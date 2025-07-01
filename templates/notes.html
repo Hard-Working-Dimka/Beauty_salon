@@ -13,7 +13,7 @@
                 {% else %}
                   src="{% static 'img/acc.svg' %}"
                 {% endif %} alt="avatar" class="accaunt__ava_img"/>
-                <span class="accaunt__ava_name">{% if  user.avatar %} {{ user.name }} {% else %} User {% endif %} </span>
+                <span class="accaunt__ava_name">{% if  user.name %} {{ user.name }} {% else %} User {% endif %} </span>
               </div>
               <div class="accaunt__settings fic">
                 <a href="{% url 'edit_profile' %}" class="accaunt__settings_intro">Изменить профиль</a>

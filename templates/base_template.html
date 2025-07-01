@@ -167,7 +167,7 @@
                     />
 
                     <a style="margin-right: 15px; text-decoration: none;" href="{% url 'profile' %}" class="accaunt__ava_name">
-                      {% if  user.avatar %} {{ user.name }} {% else %} User {% endif %}  </a>
+                      {% if  user.name %} {{ user.name }} {% else %} User {% endif %}  </a>
 
                     <a
                         href="{% url 'users:logout' %}?from={{ request.get_full_path }}"
