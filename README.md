@@ -52,7 +52,7 @@ SECRET_KEY = REPLACE_ME
 5. Примените миграции базы данных:
 
 ```bash
-   python manage.py migrate
+python manage.py migrate
 ```
 
 6. Создайте суперпользователя для доступа к административной панели:
