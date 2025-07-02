@@ -42,7 +42,7 @@ class Specialist(models.Model):
     experience = models.CharField(max_length=100)
     spec = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='specialist_images/')
-    salon = models.ForeignKey(Salon, on_delete=models.CASCADE)
+    salon = models.ForeignKey(Salon, on_delete=models.CASCADE, related_name='specialists')
     skills = models.ManyToManyField(BeautyService, related_name='specialists')
 
     def __str__(self):
