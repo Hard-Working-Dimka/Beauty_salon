@@ -138,6 +138,12 @@ $(document).ready(function() {
 			},
 			success: function(data) {
 				$('.time__elems').html(data.template)
+					$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
+		e.preventDefault()
+		$('.time__elems_btn').removeClass('active')
+		$(this).addClass('active')
+		// $(this).hasClass('active') ? $(this).removeClass('active') : $(this).addClass('active')
+	})
 			}
 		})
 			}
@@ -315,12 +321,6 @@ function addOneMonthToCurrent() {
 	
 
 	//service
-	$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
-		e.preventDefault()
-		$('.time__elems_btn').removeClass('active')
-		$(this).addClass('active')
-		// $(this).hasClass('active') ? $(this).removeClass('active') : $(this).addClass('active')
-	})
 
 	$(document).on('click', '.servicePage', function() {
 		if($('.time__items .time__elems_elem .time__elems_btn').hasClass('active') && $('.service__form_block > button').hasClass('selected')) {
