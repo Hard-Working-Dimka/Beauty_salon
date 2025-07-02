@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from .models import Appointment
 from django.utils.timezone import now
 from django.shortcuts import redirect
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from .forms import QuestionForm, ProfileUserForm
 
@@ -150,9 +150,13 @@ def ajax_load_salons(request):
 
 def ajax_load_beauty_services(request):
     salon_id = request.GET.get("salon_id", None)
+    specialist_id = request.GET.get("specialist_id", None)
+    print(specialist_id)
     services = BeautyService.objects.all().select_related("service_type")
     if salon_id:
         services = services.filter(specialists__salon=salon_id)
+    if specialist_id:
+        services = services.filter(specialists__skills__id=specialist_id)
     rendered_template = render_to_string(
         "partial_beauty_services.html",
         {"services": services},
@@ -163,7 +167,11 @@ def ajax_load_beauty_services(request):
 
 def ajax_load_specialists(request):
     time = request.GET.get("time", None)
-    print(time)
+    date = request.GET.get("date", None)
+    if time and date:
+        dt_object = datetime.strptime(date.strip() +" "+ time.strip() + " +0300", '%a %b %d %Y %H:%M %z')
+        date_str =  date.strip() +" "+ time.strip() + " +0300"
+        print(Appointment.objects.filter(date__lte=dt_object.strftime("%Y-%m-%d")).filter(slot__lte=dt_object.strftime('%H:%M')))
     salon_id = request.GET.get("salon_id", None)
     specialists = Specialist.objects.all()
     if salon_id:

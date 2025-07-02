@@ -173,7 +173,8 @@ function addOneMonthToCurrent() {
 		$.ajax({
 			url: '/ajax_load_beauty_services/',
 			data: {
-				'salon_id': current_salon_id
+				'salon_id': current_salon_id,
+				'specialist_id': current_master_id
 			},
 			success: function(data) {
 				$('.service__services > .panel').html(data.template)
@@ -184,12 +185,16 @@ function addOneMonthToCurrent() {
 		$(document).on('click', '.ajax_service_masters', function(e) {
 		current_salon_id = $('.ajax_service_salon').attr('id')
 		current_service_id = $('.ajax_service_services').attr('id')
+		time = $('.time__elems_btn.active').text()
 		let data = {
 				'salon_id': current_salon_id,
+				'service_id':current_service_id,
+				'time': time
 			}
 		if (picker.lastSelectedDate){
-			data['time'] = picker.lastSelectedDate.toDateString()
+			data['date'] = picker.lastSelectedDate.toDateString()
 		}
+		
 		console.log(current_salon_id)
 		$.ajax({
 			url: '/ajax_load_specialists/',
