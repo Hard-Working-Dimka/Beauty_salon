@@ -1,11 +1,15 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from .models import Appointment
+from django.utils.timezone import now
+from django.shortcuts import redirect
+from datetime import datetime
 
-from .forms import QuestionForm
+from .forms import QuestionForm, ProfileUserForm
 
-from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview
+from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview, Review
 
 RATING = {
     0: '☆☆☆☆☆',
@@ -40,20 +44,20 @@ def show_index(request):
         reviews.append(fake_block)
 
     specialists = list(Specialist.objects.all())
-    for specialist in specialists:  # TODO: посчитать рейтинг! (вставка звездочек)
+    for specialist in specialists:
         total_reviews = 0
         total_rating = 0
         for appointment in specialist.appointments.all():
-            if appointment.client_rating:
+            if hasattr(appointment, 'client_rating'):
                 total_reviews += 1
                 total_rating += int(appointment.client_rating.rating)
         if total_reviews == 0:
-            total_rating = RATING.get(0)
+            total_rating_display = RATING.get(0)
         else:
-            total_rating = RATING.get(total_rating // total_reviews)
+            total_rating_display = RATING.get(total_rating // total_reviews)
 
         specialist.rating = total_reviews
-        specialist.total_rating = total_rating
+        specialist.total_rating = total_rating_display
 
     while len(specialists) < 4 and specialists:
         fake_block = Specialist.objects.first()
@@ -76,8 +80,23 @@ def show_index(request):
     return render(request, "index.html", context=context)
 
 
+@login_required
 def show_notes(request):
-    return render(request, "notes.html")
+    today = now().date()
+    user_phone = request.user.phonenumber
+
+    all_appointments = Appointment.objects.filter(
+        phone_number=user_phone
+    ).select_related('specialist', 'service', 'Promo', 'specialist__salon')
+
+    upcoming = all_appointments.filter(date__gte=today).order_by('date', 'slot')
+    past = all_appointments.filter(date__lt=today).order_by('-date', '-slot')
+
+
+    return render(request, "notes.html", {
+        "upcoming_appointments": upcoming,
+        "past_appointments": past,
+    })
 
 
 def show_service(request):
@@ -133,3 +152,77 @@ def ajax_load_specialists(request):
         request=request,
     )
     return JsonResponse({"template": rendered_template}, safe=False)
+
+
+@login_required
+def edit_profile(request):
+    user = request.user
+    if request.method == "POST":
+        form = ProfileUserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+
+        form = ProfileUserForm(instance=user)
+
+    context = {
+        'form': form,
+        'user': user,
+    }
+    return render(request, "profile_edit.html", context=context)
+
+
+@login_required
+def send_review(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        phone_raw = request.POST.get("phone_number", "").strip()
+        description = request.POST.get("description", "")
+        rating = request.POST.get("rating")
+        visit_date_raw = request.POST.get("dateVis")
+
+        visit_date = None
+        if visit_date_raw:
+            try:
+                visit_date = datetime.strptime(visit_date_raw, "%Y-%m-%d").date()
+            except ValueError:
+                pass
+
+        try:
+            appointment = Appointment.objects.filter(
+                phone_number=phone_raw,
+                date=visit_date
+            ).first()
+
+            if appointment and not hasattr(appointment, 'client_rating'):
+                ClientReview.objects.create(
+                    appointment=appointment,
+                    phone_number=phone_raw,
+                    review=description,
+                    rating=rating,
+                )
+                return render(request, "review_success.html")
+        except ValueError:
+            pass
+
+    return redirect("profile")
+
+
+def send_payment(request):
+    if request.method == 'POST':
+        appointment_id = request.POST.get('appointment_id')
+        tips_amount = request.POST.get('tips_amount')
+
+        if appointment_id:
+            appointment = get_object_or_404(Appointment, id=appointment_id)
+            appointment.is_paid = True
+            appointment.save()
+        elif tips_amount:
+            print(f"Получены чаевые: {tips_amount}")
+
+        return redirect('payment_success')
+
+
+def payment_success(request):
+    return render(request, "payment_success.html")

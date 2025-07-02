@@ -1,0 +1,38 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+
+<h1 style="text-align: center;">Профиль</h1>
+
+
+<form enctype="multipart/form-data" method="post" style="max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    {% csrf_token %}
+
+    <div class="form-error" style="color: red; text-align: center; margin-bottom: 15px;">
+        {{ form.non_field_errors }}
+    </div>
+
+    {% for f in form %}
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label for="{{ f.id_for_label }}" style="font-size: 16px; font-weight: bold; display: block; margin-bottom: 5px;">
+                {{ f.label }}:
+            </label>
+            <div style="position: relative;">
+                {{ f }}
+                <div class="form-error" style="color: red; font-size: 12px; position: absolute; bottom: -20px; left: 0;">
+                    {{ f.errors }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="form-group" style="text-align: center;">
+        <button type="submit" style="background-color: #FFF9E4; color: #F6A912; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Сохранить
+        </button>
+    </div>
+</form>
+
+{% endblock %}
+
+

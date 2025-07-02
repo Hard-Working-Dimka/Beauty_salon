@@ -10,12 +10,12 @@ def login_view(request):
         user = authenticate(request, phonenumber=phonenumber)
         if user is not None:
             login(request, user)
-            return redirect(previous_page)
+            return redirect('profile')
         else:
             request.session['error'] = 'Invalid phonenumber'
             request.session['show_popup'] = True
             return redirect(previous_page)
-    return render(request, 'index.html')
+    return render(request, 'notes.html')
 
 
 def logout_view(request):
