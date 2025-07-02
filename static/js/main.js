@@ -125,7 +125,7 @@ $(document).ready(function() {
 		$('#mobMenu').hide()
 	})
 
-	new AirDatepicker('#datepickerHere',
+	let picker = new AirDatepicker('#datepickerHere',
 		{
 			minDate: new Date(),
 			maxDate: addOneMonthToCurrent()
@@ -177,12 +177,16 @@ function addOneMonthToCurrent() {
 		
 		$(document).on('click', '.ajax_service_masters', function(e) {
 		current_salon_id = $('.ajax_service_salon').attr('id')
+		let data = {
+				'salon_id': current_salon_id,
+			}
+		if (picker.lastSelectedDate){
+			data['time'] = picker.lastSelectedDate.toDateString()
+		}
 		console.log(current_salon_id)
 		$.ajax({
 			url: '/ajax_load_specialists/',
-			data: {
-				'salon_id': current_salon_id
-			},
+			data: data,
 			success: function(data) {
 				$('.service__masters > .panel').html(data.template)
 			}
@@ -205,7 +209,7 @@ function addOneMonthToCurrent() {
 		setTimeout(() => {
 			$(this).parent().parent().find('> button.active').click()
 		}, 200)
-		
+
 		// $(this).parent().addClass('hide')
 
 		// console.log($(this).parent().parent().find('.panel').hasClass('selected'))

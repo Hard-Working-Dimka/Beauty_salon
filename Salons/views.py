@@ -121,6 +121,8 @@ def ajax_load_beauty_services(request):
 
 
 def ajax_load_specialists(request):
+    time = request.GET.get("time", None)
+    print(time)
     salon_id = request.GET.get("salon_id", None)
     specialists = Specialist.objects.all()
     if salon_id:
