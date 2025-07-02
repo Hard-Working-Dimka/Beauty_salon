@@ -124,7 +124,7 @@ $(document).ready(function() {
 	$('.mobMenuClose').click(function() {
 		$('#mobMenu').hide()
 	})
-
+	var mySuccessHandler = createSuccessHandler();
 	let picker = new AirDatepicker('#datepickerHere',
 		{
 			minDate: new Date(),
@@ -136,15 +136,7 @@ $(document).ready(function() {
 			data: {
 				'date': date.getFullYear() + "-" + month + "-" + date.getDate() 
 			},
-			success: function(data) {
-				$('.time__elems').html(data.template)
-					$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
-		e.preventDefault()
-		$('.time__elems_btn').removeClass('active')
-		$(this).addClass('active')
-		// $(this).hasClass('active') ? $(this).removeClass('active') : $(this).addClass('active')
-	})
-			}
+			success: mySuccessHandler
 		})
 			}
 
@@ -321,6 +313,21 @@ function addOneMonthToCurrent() {
 	
 
 	//service
+	function createSuccessHandler() {
+	return function (data){
+		{
+				$('.time__elems').html(data.template)
+					$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {
+		e.preventDefault()
+		$('.time__elems_btn').removeClass('active')
+		$(this).addClass('active')
+		// $(this).hasClass('active') ? $(this).removeClass('active') : $(this).addClass('active')
+	})
+			}
+
+	}
+}
+	
 
 	$(document).on('click', '.servicePage', function() {
 		if($('.time__items .time__elems_elem .time__elems_btn').hasClass('active') && $('.service__form_block > button').hasClass('selected')) {
