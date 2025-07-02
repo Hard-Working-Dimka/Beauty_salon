@@ -128,7 +128,19 @@ $(document).ready(function() {
 	let picker = new AirDatepicker('#datepickerHere',
 		{
 			minDate: new Date(),
-			maxDate: addOneMonthToCurrent()
+			maxDate: addOneMonthToCurrent(),
+			onSelect({date}) {
+			let month = date.getMonth() + 1
+			$.ajax({
+			url: '/ajax_load_slots/',
+			data: {
+				'date': date.getFullYear() + "-" + month + "-" + date.getDate() 
+			},
+			success: function(data) {
+				$('.time__elems').html(data.template)
+			}
+		})
+			}
 
 		})
 function addOneMonthToCurrent() {

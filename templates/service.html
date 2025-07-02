@@ -60,18 +60,6 @@
           </div>
           <div class="col-md-8">
             <div class="time__elems">
-              {% for key, values in slots.items %}
-              <div class="time__items">
-                <div class="time__elems_intro">{{key}}</div>
-                <div class="time__elems_elem fic">
-                  {% for slot in values %}
-                  <button data-time="{{slot}}" class="time__elems_btn">
-                    {{slot}}
-                  </button>
-                  {% endfor %}
-                </div>     
-              </div>
-              {% endfor %}
             </div>
           </div>
         </div>

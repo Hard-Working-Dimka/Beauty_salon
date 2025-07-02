@@ -1,0 +1,12 @@
+{% for key, values in slots.items %}
+<div class="time__items">
+  <div class="time__elems_intro">{{key}}</div>
+  <div class="time__elems_elem fic">
+    {% for value in values %}
+    <button data-time="{{value.slot}}" class="time__elems_btn" {%if value.disabled %} disabled {%endif%}>
+      {{value.slot}}
+    </button>
+    {% endfor %}
+  </div>     
+</div>
+{% endfor %}

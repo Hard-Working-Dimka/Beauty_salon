@@ -30,6 +30,7 @@ from Salons.views import (
     send_review,
     send_payment,
     payment_success,
+    ajax_load_slots,
 )
 
 urlpatterns = [
@@ -46,6 +47,7 @@ urlpatterns = [
         name="ajax_load_beauty_services",
     ),
     path("ajax_load_specialists/", ajax_load_specialists, name="ajax_load_specialists"),
+    path("ajax_load_slots/",ajax_load_slots,name="ajax_load_slots"),
     path("edit_profile/", edit_profile, name = "edit_profile"),
     path("send-review/", send_review, name="send_review"),
     path("send_payment/", send_payment, name="send_payment"),

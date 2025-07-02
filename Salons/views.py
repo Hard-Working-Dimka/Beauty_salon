@@ -102,25 +102,9 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    salon = Salon.objects.first()
-    current_time_slot = salon.work_start_at
-    slots = {
-        "Утро": [],
-        "День": [],
-        "Вечер": [],
-    }
-    while current_time_slot < salon.work_end_time:
-        if current_time_slot.hour < 13:
-            slots["Утро"].append(current_time_slot)
-        elif current_time_slot.hour < 16:
-            slots["День"].append(current_time_slot)
-        else:
-            slots["Вечер"].append(current_time_slot)
-        current_time_slot = current_time_slot.replace(hour=current_time_slot.hour + 1)
     context = {
         "error": error,
-        "show_popup": show_popup,
-        "slots": slots
+        "show_popup": show_popup
     }
     return render(request, "service.html", context=context)
 
@@ -132,14 +116,47 @@ def show_serviceFinaly(request):
     return render(request, "serviceFinally.html", context=context)
 
 
+def ajax_load_slots(request):
+    date = request.GET.get("date", None)
+    print(date)
+    date_dt = datetime.strptime(date,"%Y-%m-%d")
+    appointment_current_date = Appointment.objects.filter(date=date)
+    print(appointment_current_date)
+    salon = Salon.objects.first()
+    current_time_slot = salon.work_start_at
+    slots = {
+        "Утро": [],
+        "День": [],
+        "Вечер": [],
+    }
+    unavaible_slots = appointment_current_date.values_list('slot', flat=True)
+    print(unavaible_slots)
+    unavaible_slots = {i.hour for i in unavaible_slots}
+    while current_time_slot < salon.work_end_time:
+        disabled = (now().time().hour + 3 >= current_time_slot.hour and now().date().day == date_dt.day)or current_time_slot.hour in unavaible_slots
+        if current_time_slot.hour < 13:
+            slots["Утро"].append({'slot':current_time_slot, 'disabled' : disabled})
+        elif current_time_slot.hour < 16:
+            slots["День"].append({'slot':current_time_slot, 'disabled' : disabled})
+        else:
+            slots["Вечер"].append({'slot':current_time_slot, 'disabled' : disabled})
+        current_time_slot = current_time_slot.replace(hour=current_time_slot.hour + 1)
+
+    rendered_template = render_to_string(
+        "partial_slots.html",
+        {"slots": slots},
+        request=request
+    )
+    return JsonResponse({"template": rendered_template}, safe=False)
+
 def ajax_load_salons(request):
     specialist_id = request.GET.get("specialist_id", None)
     service_id = request.GET.get("service_id", None)
     salons = Salon.objects.all()
     if specialist_id:
-        salons = salons.filter(specialists__id=specialist_id)
+        salons = salons.filter(specialists__id=specialist_id).distinct()
     if service_id:
-        salons = salons.filter(specialists__skills__id=service_id)
+        salons = salons.filter(specialists__skills__id=service_id).distinct()
     rendered_template = render_to_string(
         "partial_salons.html",
         {"salons": salons},
@@ -153,9 +170,9 @@ def ajax_load_beauty_services(request):
     specialist_id = request.GET.get("specialist_id", None)
     services = BeautyService.objects.all().select_related("service_type")
     if salon_id:
-        services = services.filter(specialists__salon=salon_id)
+        services = services.filter(specialists__salon=salon_id).distinct()
     if specialist_id:
-        services = services.filter(specialists__skills__id=specialist_id)
+        services = services.filter(specialists__id=specialist_id).distinct()
     rendered_template = render_to_string(
         "partial_beauty_services.html",
         {"services": services},
@@ -175,9 +192,9 @@ def ajax_load_specialists(request):
     service_id = request.GET.get("service_id", None)
     specialists = Specialist.objects.all()
     if salon_id:
-        specialists = specialists.filter(salon__id=salon_id)
+        specialists = specialists.filter(salon__id=salon_id).distinct()
     if service_id:
-        specialists = specialists.filter(skills__id=service_id)
+        specialists = specialists.filter(skills__id=service_id).distinct()
     rendered_template = render_to_string(
         "partial_specialists.html",
         {"specialists": specialists},
