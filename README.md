@@ -49,11 +49,10 @@ pip install -r requirements.txt
 SECRET_KEY = REPLACE_ME
 ```
 
-```
 5. Примените миграции базы данных:
 
-```
-python manage.py migrate
+```bash
+   python manage.py migrate
 ```
 
 6. Создайте суперпользователя для доступа к административной панели:
