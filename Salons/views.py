@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from .models import Appointment
 from django.utils.timezone import now
 from django.shortcuts import redirect
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .forms import QuestionForm, ProfileUserForm
 
@@ -102,9 +102,25 @@ def show_notes(request):
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
+    salon = Salon.objects.first()
+    current_time_slot = salon.work_start_at
+    slots = {
+        "Утро": [],
+        "День": [],
+        "Вечер": [],
+    }
+    while current_time_slot < salon.work_end_time:
+        if current_time_slot.hour < 13:
+            slots["Утро"].append(current_time_slot)
+        elif current_time_slot.hour < 16:
+            slots["День"].append(current_time_slot)
+        else:
+            slots["Вечер"].append(current_time_slot)
+        current_time_slot = current_time_slot.replace(hour=current_time_slot.hour + 1)
     context = {
         "error": error,
         "show_popup": show_popup,
+        "slots": slots
     }
     return render(request, "service.html", context=context)
 
