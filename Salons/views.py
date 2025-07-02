@@ -151,7 +151,6 @@ def ajax_load_salons(request):
 def ajax_load_beauty_services(request):
     salon_id = request.GET.get("salon_id", None)
     specialist_id = request.GET.get("specialist_id", None)
-    print(specialist_id)
     services = BeautyService.objects.all().select_related("service_type")
     if salon_id:
         services = services.filter(specialists__salon=salon_id)
@@ -173,9 +172,12 @@ def ajax_load_specialists(request):
         date_str =  date.strip() +" "+ time.strip() + " +0300"
         print(Appointment.objects.filter(date__lte=dt_object.strftime("%Y-%m-%d")).filter(slot__lte=dt_object.strftime('%H:%M')))
     salon_id = request.GET.get("salon_id", None)
+    service_id = request.GET.get("service_id", None)
     specialists = Specialist.objects.all()
     if salon_id:
         specialists = specialists.filter(salon__id=salon_id)
+    if service_id:
+        specialists = specialists.filter(skills__id=service_id)
     rendered_template = render_to_string(
         "partial_specialists.html",
         {"specialists": specialists},
