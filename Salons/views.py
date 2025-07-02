@@ -133,7 +133,13 @@ def show_serviceFinaly(request):
 
 
 def ajax_load_salons(request):
+    specialist_id = request.GET.get("specialist_id", None)
+    service_id = request.GET.get("service_id", None)
     salons = Salon.objects.all()
+    if specialist_id:
+        salons = salons.filter(specialists__id=specialist_id)
+    if service_id:
+        salons = salons.filter(specialists__skills__id=service_id)
     rendered_template = render_to_string(
         "partial_salons.html",
         {"salons": salons},

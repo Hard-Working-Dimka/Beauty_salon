@@ -152,9 +152,14 @@ function addOneMonthToCurrent() {
 	}
 
 	$(document).on('click', '.ajax_service_salon', function(e) {
+		current_service_id = $('.ajax_service_services').attr('id')
+		current_master_id = $('.accordion__block_master').attr('id')
 		$.ajax({
 			url: '/ajax_load_salons/',
 			data: {
+				'specialist_id':current_master_id,
+				'service_id' : current_service_id
+
 			},
 			success: function(data) {
 				$('.service__salons > .panel').html(data.template)
@@ -163,6 +168,7 @@ function addOneMonthToCurrent() {
 	})
 	$(document).on('click', '.ajax_service_services', function(e) {
 		current_salon_id = $('.ajax_service_salon').attr('id')
+		current_master_id = $('.accordion__block_master').attr('id') 
 		console.log(current_salon_id)
 		$.ajax({
 			url: '/ajax_load_beauty_services/',
@@ -177,6 +183,7 @@ function addOneMonthToCurrent() {
 		
 		$(document).on('click', '.ajax_service_masters', function(e) {
 		current_salon_id = $('.ajax_service_salon').attr('id')
+		current_service_id = $('.ajax_service_services').attr('id')
 		let data = {
 				'salon_id': current_salon_id,
 			}
@@ -238,6 +245,7 @@ function addOneMonthToCurrent() {
 
 
 	$(document).on('click', '.service__masters .accordion__block', function(e) {
+		master_id = $(this)
 		let clone = $(this).clone()
 		console.log(clone)
 		$(this).parent().parent().find('> button.active').html(clone)
