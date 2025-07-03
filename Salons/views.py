@@ -118,10 +118,12 @@ def show_serviceFinaly(request):
 
 def ajax_load_slots(request):
     date = request.GET.get("date", None)
-    print(date)
-    date_dt = datetime.strptime(date,"%Y-%m-%d")
-    appointment_current_date = Appointment.objects.filter(date=date)
-    print(appointment_current_date)
+    date_dt = datetime.strptime(date, "%Y-%m-%d")
+    specialist_id = request.GET.get("specialist_id", None)
+    unavaible_slots = []
+    if specialist_id:
+        appointment_current_date = Appointment.objects.filter(date=date, specialist__id=specialist_id)
+        unavaible_slots += appointment_current_date.values_list('slot', flat=True)
     salon = Salon.objects.first()
     current_time_slot = salon.work_start_at
     slots = {
@@ -129,7 +131,6 @@ def ajax_load_slots(request):
         "День": [],
         "Вечер": [],
     }
-    unavaible_slots = appointment_current_date.values_list('slot', flat=True)
     print(unavaible_slots)
     unavaible_slots = {i.hour for i in unavaible_slots}
     while current_time_slot < salon.work_end_time:
@@ -184,10 +185,6 @@ def ajax_load_beauty_services(request):
 def ajax_load_specialists(request):
     time = request.GET.get("time", None)
     date = request.GET.get("date", None)
-    if time and date:
-        dt_object = datetime.strptime(date.strip() +" "+ time.strip() + " +0300", '%a %b %d %Y %H:%M %z')
-        date_str =  date.strip() +" "+ time.strip() + " +0300"
-        print(Appointment.objects.filter(date__lte=dt_object.strftime("%Y-%m-%d")).filter(slot__lte=dt_object.strftime('%H:%M')))
     salon_id = request.GET.get("salon_id", None)
     service_id = request.GET.get("service_id", None)
     specialists = Specialist.objects.all()
@@ -195,6 +192,12 @@ def ajax_load_specialists(request):
         specialists = specialists.filter(salon__id=salon_id).distinct()
     if service_id:
         specialists = specialists.filter(skills__id=service_id).distinct()
+    if time and date:
+        dt_object = datetime.strptime(date.strip()+" "+time.strip()+" +0300", '%a %b %d %Y %H:%M %z')
+        specialists = specialists.exclude(
+            appointments__date=dt_object.strftime("%Y-%m-%d"),
+            appointments__slot=dt_object.strftime('%H:%M')
+            )
     rendered_template = render_to_string(
         "partial_specialists.html",
         {"specialists": specialists},

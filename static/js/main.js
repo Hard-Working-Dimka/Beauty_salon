@@ -131,10 +131,12 @@ $(document).ready(function () {
 			maxDate: addOneMonthToCurrent(),
 			onSelect({ date }) {
 				let month = date.getMonth() + 1
+				current_master_id = $('.accordion__block_master').attr('id')
 				$.ajax({
 					url: '/ajax_load_slots/',
 					data: {
-						'date': date.getFullYear() + "-" + month + "-" + date.getDate()
+						'date': date.getFullYear() + "-" + month + "-" + date.getDate(),
+						'specialist_id': current_master_id
 					},
 					success: mySuccessHandler
 				})
@@ -204,8 +206,6 @@ $(document).ready(function () {
 		if (picker.lastSelectedDate) {
 			data['date'] = picker.lastSelectedDate.toDateString()
 		}
-
-		console.log(current_salon_id)
 		$.ajax({
 			url: '/ajax_load_specialists/',
 			data: data,
