@@ -39,7 +39,7 @@ urlpatterns = [
     path("", show_index, name="main"),
     path("notes/", show_notes, name="profile"),
     path("service/", show_service, name="service"),
-    path("serviceF/", show_serviceFinaly, name="serviceFinally"),
+    path("serviceF/<int:service_id>/<specialist_id>/<str:time>/<str:date>/", show_serviceFinaly, name="serviceFinally"),
     path("ajax_load_salons/", ajax_load_salons, name="ajax_load_salons"),
     path(
         "ajax_load_beauty_services/",

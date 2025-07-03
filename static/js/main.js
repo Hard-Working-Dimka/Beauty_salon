@@ -340,20 +340,20 @@ $(document).ready(function () {
 		current_service_id = $('.ajax_service_services').attr('id')
 		time = $('.time__elems_btn.active').text()
 		current_master_id = $('.accordion__block_master').attr('id')
-		const params = new URLSearchParams();
-		date = picker.lastSelectedDate.toDateString()
-		if (current_salon_id){
-			params.set('salon_id', current_salon_id);
+		date = picker.lastSelectedDate
+		if (!current_salon_id){
+			current_salon_id = 0
 		}
-        params.set('service_id', current_service_id);
-		if (current_master_id){
-			params.set('specialist_id', current_master_id);
+		if (!current_master_id){
+			current_master_id = 0;
 		}
-		params.set('time', time);
-		params.set('date', date);
+		const year = date.getFullYear();
+    	let month = String(date.getMonth() + 1).padStart(2, '0'); 
+    	let day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
 		const href = $(this).attr('servicef')
         // делаем редирект на страницу с параметрами
-        window.location.href = href + '?'+ params.toString();
+        window.location.href = '/serviceF/' + current_service_id + '/' +current_master_id + '/'+ $.trim(time) + '/' + formattedDate + '/';
 	})
 
 
