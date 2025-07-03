@@ -112,7 +112,22 @@ def show_service(request):
 def show_serviceFinaly(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    context = {"error": error, "show_popup": show_popup}
+    time = request.GET.get("time", None)
+    date = request.GET.get("date", None)
+    dt_object = datetime.strptime(date.strip()+" "+time.strip()+" +0300", '%a %b %d %Y %H:%M %z')
+    specialist_id = request.GET.get("specialist_id", None)
+    service_id = request.GET.get("service_id", None)
+    date = dt_object.strftime("%Y-%m-%d")
+    time = dt_object.strftime('%H:%M')
+    if not specialist_id:
+        specialist = Specialist.objects.filter(skills__id=service_id).order_by('?').first()
+    else:
+        specialist = Specialist.objects.get(id=specialist_id)
+    context = {
+        "error": error,
+        "show_popup": show_popup,
+        "specialist": specialist
+    }
     return render(request, "serviceFinally.html", context=context)
 
 

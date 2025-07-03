@@ -334,7 +334,24 @@ $(document).ready(function () {
 			$('.time__btns_next').addClass('active')
 		}
 	})
-
+	
+	$(document).on('click' , '.time__btns_next', function(){
+        current_salon_id = $('.ajax_service_salon').attr('id')
+		current_service_id = $('.ajax_service_services').attr('id')
+		time = $('.time__elems_btn.active').text()
+		current_master_id = $('.accordion__block_master').attr('id')
+		const params = new URLSearchParams();
+		date = picker.lastSelectedDate.toDateString()
+		
+        params.set('salon_id', current_salon_id);
+        params.set('service_id', current_service_id);
+		params.set('specialist_id', current_master_id);
+		params.set('time', time);
+		params.set('date', date);
+		const href = $(this).attr('servicef')
+        // делаем редирект на страницу с параметрами
+        window.location.href = href + '?'+ params.toString();
+	})
 
 
 })

@@ -14,14 +14,14 @@
             <div class="serviceFinally__form_block">
               <div class="serviceFinally__form_header fic">
                 <span class="serviceFinally__form_header__number"
-                  >Запись №32985</span
+                  >Запись</span
                 >
                 <div class="serviceFinally__form_header__item fic">
                   <div class="serviceFinally__form_header__service">
-                    BeautyCity Пушкинская
+                    {{specialist.salon.name}}
                   </div>
                   <div class="serviceFinally__form_header__address">
-                    ул. Пушкинская, д. 78А
+                    {{specilaist.salon.address}}
                   </div>
                 </div>
               </div>
@@ -35,11 +35,11 @@
                 <div class="serviceFinally__form_content__block fic">
                   <div class="serviceFinally__form_content__items fic">
                     <img
-                      src="{% static 'img/masters/avatar/vizajist1.svg' %}"
+                      src="{{ specialist.photo.url}}"
                       alt="avatar"
                       class="accordion__block_img"
                     />
-                    <div class="accordion__block_master">Елена Грибнова</div>
+                    <div class="accordion__block_master">{{specialist.name}}</div>
                   </div>
                   <div class="serviceFinally__form_content__item fic">
                     <div class="serviceFinally__form_content__time">16:30</div>
