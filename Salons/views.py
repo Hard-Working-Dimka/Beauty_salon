@@ -295,27 +295,18 @@ def edit_profile(request):
 def send_review(request):
     if request.method == "POST":
         # name = request.POST.get("name")
-        phone_raw = request.POST.get("phone_number", "").strip()
+        appointment_id = request.POST.get("appointment_id")
         description = request.POST.get("description", "")
         rating = request.POST.get("rating")
-        visit_date_raw = request.POST.get("dateVis")
-
-        visit_date = None
-        if visit_date_raw:
-            try:
-                visit_date = datetime.strptime(visit_date_raw, "%Y-%m-%d").date()
-            except ValueError:
-                pass
-
+        phone_number = str(request.user.phonenumber)
         try:
-            appointment = Appointment.objects.filter(
-                phone_number=phone_raw, date=visit_date
-            ).first()
-
-            if appointment and not hasattr(appointment, "client_rating"):
+            appointment = Appointment.objects.get(
+                id=appointment_id,
+            )
+            if appointment:
                 ClientReview.objects.create(
                     appointment=appointment,
-                    phone_number=phone_raw,
+                    phone_number=phone_number,
                     review=description,
                     rating=rating,
                 )

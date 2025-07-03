@@ -300,7 +300,17 @@ $(document).ready(function () {
 
 	$('.rewiewPopupOpen').click(function (e) {
 		e.preventDefault()
-		$('#reviewModal').arcticmodal();
+		var appointment_id = $(this).attr('data-appointment-id')
+		console.log(appointment_id)
+		$('#reviewModal').arcticmodal(
+			{
+				beforeOpen: function () {
+					$('#reviewModal .appointment_id').val(appointment_id)
+				},
+				afterClose: function () {
+				}
+			}
+		);
 	})
 	$('.payPopupOpen').click(function (e) {
 		e.preventDefault()
