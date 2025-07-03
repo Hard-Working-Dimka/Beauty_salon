@@ -4,7 +4,7 @@ from phonenumbers import NumberParseException
 
 
 class NoPasswordBackend:
-    def authenticate(self, request, phonenumber=None):
+    def authenticate(self, request, phonenumber=None, name=''):
         User = get_user_model()
         try:
             phonenumber = PhoneNumber.from_string(phonenumber)
@@ -14,7 +14,7 @@ class NoPasswordBackend:
             try:
                 user = User.objects.get(phonenumber=phonenumber)
             except User.DoesNotExist:
-                user = User(phonenumber=phonenumber)
+                user = User(phonenumber=phonenumber, name=name)
                 user.save()
             return user
         return None

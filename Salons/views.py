@@ -129,14 +129,14 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             phonenumber = form.cleaned_data["phonenumber"]
+            name = form.cleaned_data["name"]
             if not request.user.is_authenticated:
-                user = authenticate(request, phonenumber=phonenumber)
+                user = authenticate(request, phonenumber=phonenumber, name=name)
                 if user is not None:
                     login(request, user)
-
             Appointment.objects.create(
                 phone_number=phonenumber,
-                name=form.cleaned_data["name"],
+                name=name,
                 question=form.cleaned_data["question"],
                 date=date,
                 slot=time,
