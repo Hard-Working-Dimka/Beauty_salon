@@ -342,10 +342,13 @@ $(document).ready(function () {
 		current_master_id = $('.accordion__block_master').attr('id')
 		const params = new URLSearchParams();
 		date = picker.lastSelectedDate.toDateString()
-		
-        params.set('salon_id', current_salon_id);
+		if (current_salon_id){
+			params.set('salon_id', current_salon_id);
+		}
         params.set('service_id', current_service_id);
-		params.set('specialist_id', current_master_id);
+		if (current_master_id){
+			params.set('specialist_id', current_master_id);
+		}
 		params.set('time', time);
 		params.set('date', date);
 		const href = $(this).attr('servicef')
