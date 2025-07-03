@@ -330,7 +330,7 @@ $(document).ready(function () {
 
 
 	$(document).on('click', '.servicePage', function () {
-		if ($('.time__items .time__elems_elem .time__elems_btn').hasClass('active') && $('.service__form_block > button').hasClass('selected')) {
+		if ($('.time__items .time__elems_elem .time__elems_btn').hasClass('active') && $('.service__form_block > button').length === $('.service__form_block > button.selected').length) {
 			$('.time__btns_next').addClass('active')
 		}
 	})
