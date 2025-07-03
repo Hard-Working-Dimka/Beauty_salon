@@ -114,7 +114,7 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
     service = BeautyService.objects.get(id=service_id)
     if not specialist_id:
         specialist = (
-            Specialist.objects.filter(skills__id=service_id).order_by("?").first()
+            Specialist.objects.filter(skills__id=service_id).exclude(appointment__date=date, appointment__time=time).first()
         )
     else:
         specialist = Specialist.objects.get(id=specialist_id)
