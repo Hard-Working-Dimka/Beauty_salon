@@ -131,7 +131,7 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
             phonenumber = form.cleaned_data["phonenumber"]
             name = form.cleaned_data["name"]
             if not request.user.is_authenticated:
-                user = authenticate(request, phonenumber=phonenumber, name=name)
+                user = authenticate(request, phonenumber=str(phonenumber), name=name)
                 if user is not None:
                     login(request, user)
             Appointment.objects.create(
@@ -144,6 +144,21 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
                 service=service,
             )
             return redirect("profile")
+        else:
+            return render(
+                request,
+                "serviceFinally.html",
+                context={
+                    "error": error,
+                    "show_popup": show_popup,
+                    "specialist": specialist,
+                    "date": date,
+                    "time": time,
+                    "service": service,
+                    "form": form,
+                },
+            )
+
     initial = None
     if request.user.is_authenticated:
         initial = {
