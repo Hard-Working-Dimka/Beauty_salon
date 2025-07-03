@@ -7,14 +7,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 
-from Salons.models import (
-    BeautyService,
-    ClientReview,
-    Salon,
-    Specialist,
-)
+from Salons.models import BeautyService, ClientReview, Salon, Specialist, Promo
 
-from .forms import AppointmentForm, ProfileUserForm, QuestionForm
+from .forms import AppointmentForm, ProfileUserForm, QuestionForm, PromoForm
 from .models import Appointment
 
 RATING = {
@@ -126,46 +121,115 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
     if request.method == "POST":
-        form = AppointmentForm(request.POST)
-        if form.is_valid():
-            phonenumber = form.cleaned_data["phonenumber"]
-            name = form.cleaned_data["name"]
-            if not request.user.is_authenticated:
-                user = authenticate(request, phonenumber=str(phonenumber), name=name)
-                if user is not None:
-                    login(request, user)
-            Appointment.objects.create(
-                phone_number=phonenumber,
-                name=name,
-                question=form.cleaned_data["question"],
-                date=date,
-                slot=time,
-                specialist=specialist,
-                service=service,
-            )
-            return redirect("profile")
-        else:
-            return render(
-                request,
-                "serviceFinally.html",
-                context={
-                    "error": error,
-                    "show_popup": show_popup,
-                    "specialist": specialist,
-                    "date": date,
-                    "time": time,
-                    "service": service,
-                    "form": form,
-                },
-            )
+        form_type = request.POST.get("form_type")
+        if form_type == "promo":
+            if request.user.is_authenticated:
+                initial = {
+                    "phonenumber": request.user.phonenumber,
+                    "name": request.user.name,
+                }
+            form = AppointmentForm(initial=initial)
+            promoform = PromoForm(request.POST)
+            if promoform.is_valid():
+                datetime_now = now()
+                promo = Promo.objects.filter(
+                    name=promoform.cleaned_data["promo"],
+                    from_date__lte=datetime_now,
+                    to_date__gte=datetime_now,
+                    is_active=True,
+                ).first()
+                if promo:
+                    return render(
+                        request,
+                        "serviceFinally.html",
+                        context={
+                            "error": error,
+                            "show_popup": show_popup,
+                            "specialist": specialist,
+                            "service": service,
+                            "time": time,
+                            "date": date,
+                            "form": form,
+                            "promo": promo,
+                            "promoform": promoform,
+                        },
+                    )
+                else:
+                    promoform.add_error("promo", "Промокод не действителен")
+                    return render(
+                        request,
+                        "serviceFinally.html",
+                        context={
+                            "error": error,
+                            "show_popup": show_popup,
+                            "specialist": specialist,
+                            "service": service,
+                            "time": time,
+                            "date": date,
+                            "form": form,
+                            "promoform": promoform,
+                        },
+                    )
+        elif form_type == "appointment":
+            form = AppointmentForm(request.POST)
+            promoform = PromoForm(request.POST)
+            promo_id = request.POST.get("promo_id", None)
+            if form.is_valid():
+                phonenumber = form.cleaned_data["phonenumber"]
+                name = form.cleaned_data["name"]
+                if not request.user.is_authenticated:
+                    user = authenticate(
+                        request, phonenumber=str(phonenumber), name=name
+                    )
+                    if user is not None:
+                        login(request, user)
+                if promo_id:
+                    promo = Promo.objects.get(id=promo_id)
+                    Appointment.objects.create(
+                        phone_number=phonenumber,
+                        name=name,
+                        question=form.cleaned_data["question"],
+                        date=date,
+                        slot=time,
+                        specialist=specialist,
+                        service=service,
+                        Promo=promo,
+                    )
+                else:
+                    Appointment.objects.create(
+                        phone_number=phonenumber,
+                        name=name,
+                        question=form.cleaned_data["question"],
+                        date=date,
+                        slot=time,
+                        specialist=specialist,
+                        service=service,
+                    )
+                return redirect("profile")
+            else:
+                return render(
+                    request,
+                    "serviceFinally.html",
+                    context={
+                        "error": error,
+                        "show_popup": show_popup,
+                        "specialist": specialist,
+                        "date": date,
+                        "time": time,
+                        "service": service,
+                        "form": form,
+                        "promoform": promoform,
+                    },
+                )
 
     initial = None
     if request.user.is_authenticated:
         initial = {
             "phonenumber": request.user.phonenumber,
-            "name": request.user.first_name,
+            "name": request.user.name,
         }
     form = AppointmentForm(initial=initial)
+    promoform = PromoForm()
     context = {
         "error": error,
         "show_popup": show_popup,
@@ -174,6 +238,7 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
         "time": time,
         "service": service,
         "form": form,
+        "promoform": promoform,
     }
     return render(request, "serviceFinally.html", context=context)
 

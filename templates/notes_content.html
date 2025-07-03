@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <div class="notes__content notes__content_upcoming">
   <div class="notes__main_title">ПРЕДСТОЯЩИЕ</div>
 
@@ -23,10 +24,9 @@
             </div>
             <div class="notes__main_block__main_elems fic">
               <div class="notes__main_block__main_elems__name otes__main_blockWidth">{{ appointment.service.name }}</div>
-              <div class="notes__main_block__main_elems__price otes__main_blockWidth">{{ appointment.service.price }} руб</div>
+              <div class="notes__main_block__main_elems__price otes__main_blockWidth">{% if appointment.Promo%}<del>{{ appointment.service.price }}</del> {{ appointment.service.price|percent:appointment.Promo.percent|floatformat:"2" }}{%else%} {{ appointment.service.price }} {%endif%} руб</div>
             </div>
           </div>
-
           <div class="notes__main_block__main_items">
             <div class="notes__main_block__main_elems fic">
               <div class="notes__main_block__main_elems__intro otes__main_blockWidth">Мастер:</div>

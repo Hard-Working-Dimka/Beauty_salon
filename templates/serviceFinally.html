@@ -1,4 +1,4 @@
-{% extends 'base_template.html' %} {% load static %} {% block content %}
+{% extends 'base_template.html' %} {% load static %} {% block content %}{% load custom_filters %}
   <section id="serviceFinally">
     <div class="container">
       <div class="serviceFinally">
@@ -23,7 +23,7 @@
                 <div class="serviceFinally__form_content">
                   <div class="serviceFinally__form_content__block fic">
                     <div class="serviceFinally__form_content__title">{{ service.name }}</div>
-                    <div class="serviceFinally__form_content__price">{{ service.price }} ₽</div>
+                    <div class="serviceFinally__form_content__price">{% if promo%}<del>{{ service.price }}</del> {{ service.price|percent:promo.percent|floatformat:"2" }}{%else%} {{ service.price }} {%endif%}₽</div>
                   </div>
                   <div class="serviceFinally__form_content__block fic">
                     <div class="serviceFinally__form_content__items fic">
@@ -44,7 +44,10 @@
                   {{ form.name }}
                   <div class="contacts__form_inputBlock">{{ form.phonenumber }}</div>
                 </div>
-
+                <input type="hidden" name="form_type" value="appointment"/>
+                {% if promo %}
+                  <input type="hidden" name="promo_id" value="{{promo.id}}"/>
+                {% endif %}
                 {{ form.question }}
                 <div class="contacts__form_checkboxBlock fic">
                   <input type="checkbox" class="contacts__form_checkbox" checked="" />
@@ -54,8 +57,19 @@
                 <a href="{% url 'service' %}"><button type="button" class="serviceFinallys__form_back">Назад ></button></a>
               </div>
             </form>
+            <form method="post">
+              {% csrf_token %}
+                {{promoform.promo.errors}}
+                <div class="serviceFinally__form_itesm">
+                <div class="contacts__form_block fic">
+                  {{ promoform.promo }}
+                </div>
+                </div>
+              <input type="hidden" name="form_type" value="promo"/>
+            <button type="submit" class="serviceFinallys__form_btn">Применить промокод</button>
           </div>
-
+              
+         </form>
           <div class="col-md-12 col-lg-5">
             <img src="{% static 'img/bannerImg.svg' %}" alt="bannerImg" class="banner__img" />
           </div>

@@ -94,3 +94,16 @@ class AppointmentForm(forms.Form):
         ),
         required=False,
     )
+
+
+class PromoForm(forms.Form):
+    promo = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                "class": "contacts__form_iunput",
+                "placeholder": "Введите промокод",
+                "name": "fname",
+            }
+        ),
+    )
