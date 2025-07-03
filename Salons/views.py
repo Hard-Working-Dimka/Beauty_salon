@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,9 +10,7 @@ from django.utils.timezone import now
 from Salons.models import (
     BeautyService,
     ClientReview,
-    Review,
     Salon,
-    ServiceType,
     Specialist,
 )
 
@@ -20,12 +18,12 @@ from .forms import AppointmentForm, ProfileUserForm, QuestionForm
 from .models import Appointment
 
 RATING = {
-    0: '☆☆☆☆☆',
-    1: '★☆☆☆☆',
-    2: '★★☆☆☆',
-    3: '★★★☆☆',
-    4: '★★★★☆',
-    5: '★★★★★',
+    0: "☆☆☆☆☆",
+    1: "★☆☆☆☆",
+    2: "★★☆☆☆",
+    3: "★★★☆☆",
+    4: "★★★★☆",
+    5: "★★★★★",
 }
 
 
@@ -56,7 +54,7 @@ def show_index(request):
         total_reviews = 0
         total_rating = 0
         for appointment in specialist.appointments.all():
-            if hasattr(appointment, 'client_rating'):
+            if hasattr(appointment, "client_rating"):
                 total_reviews += 1
                 total_rating += int(appointment.client_rating.rating)
         if total_reviews == 0:
@@ -95,55 +93,57 @@ def show_notes(request):
 
     all_appointments = Appointment.objects.filter(
         phone_number=user_phone
-    ).select_related('specialist', 'service', 'Promo', 'specialist__salon')
+    ).select_related("specialist", "service", "Promo", "specialist__salon")
 
-    upcoming = all_appointments.filter(date__gte=today).order_by('date', 'slot')
-    past = all_appointments.filter(date__lt=today).order_by('-date', '-slot')
+    upcoming = all_appointments.filter(date__gte=today).order_by("date", "slot")
+    past = all_appointments.filter(date__lt=today).order_by("-date", "-slot")
 
-
-    return render(request, "notes.html", {
-        "upcoming_appointments": upcoming,
-        "past_appointments": past,
-    })
+    return render(
+        request,
+        "notes.html",
+        {
+            "upcoming_appointments": upcoming,
+            "past_appointments": past,
+        },
+    )
 
 
 def show_service(request):
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    context = {
-        "error": error,
-        "show_popup": show_popup
-    }
+    context = {"error": error, "show_popup": show_popup}
     return render(request, "service.html", context=context)
 
 
 def show_serviceFinaly(request, service_id, specialist_id, time, date):
     service = BeautyService.objects.get(id=service_id)
     if not specialist_id:
-        specialist = Specialist.objects.filter(skills__id=service_id).order_by('?').first()
+        specialist = (
+            Specialist.objects.filter(skills__id=service_id).order_by("?").first()
+        )
     else:
         specialist = Specialist.objects.get(id=specialist_id)
     error = request.session.pop("error", None)
     show_popup = request.session.get("show_popup", False)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            phonenumber = form.cleaned_data['phonenumber']
+            phonenumber = form.cleaned_data["phonenumber"]
             if not request.user.is_authenticated:
                 user = authenticate(request, phonenumber=phonenumber)
                 if user is not None:
                     login(request, user)
-            
-            a = Appointment.objects.create(
+
+            Appointment.objects.create(
                 phone_number=phonenumber,
-                name=form.cleaned_data['name'],
-                question=form.cleaned_data['question'],
+                name=form.cleaned_data["name"],
+                question=form.cleaned_data["question"],
                 date=date,
                 slot=time,
                 specialist=specialist,
-                service=service
+                service=service,
             )
-            return redirect('profile')
+            return redirect("profile")
     initial = None
     if request.user.is_authenticated:
         initial = {
@@ -169,8 +169,10 @@ def ajax_load_slots(request):
     specialist_id = request.GET.get("specialist_id", None)
     unavaible_slots = []
     if specialist_id:
-        appointment_current_date = Appointment.objects.filter(date=date, specialist__id=specialist_id)
-        unavaible_slots += appointment_current_date.values_list('slot', flat=True)
+        appointment_current_date = Appointment.objects.filter(
+            date=date, specialist__id=specialist_id
+        )
+        unavaible_slots += appointment_current_date.values_list("slot", flat=True)
     salon = Salon.objects.first()
     current_time_slot = salon.work_start_at
     slots = {
@@ -178,24 +180,25 @@ def ajax_load_slots(request):
         "День": [],
         "Вечер": [],
     }
-    print(unavaible_slots)
     unavaible_slots = {i.hour for i in unavaible_slots}
     while current_time_slot < salon.work_end_time:
-        disabled = (now().time().hour + 3 >= current_time_slot.hour and now().date().day == date_dt.day)or current_time_slot.hour in unavaible_slots
+        disabled = (
+            now().time().hour + 3 >= current_time_slot.hour
+            and now().date().day == date_dt.day
+        ) or current_time_slot.hour in unavaible_slots
         if current_time_slot.hour < 13:
-            slots["Утро"].append({'slot':current_time_slot, 'disabled' : disabled})
+            slots["Утро"].append({"slot": current_time_slot, "disabled": disabled})
         elif current_time_slot.hour < 16:
-            slots["День"].append({'slot':current_time_slot, 'disabled' : disabled})
+            slots["День"].append({"slot": current_time_slot, "disabled": disabled})
         else:
-            slots["Вечер"].append({'slot':current_time_slot, 'disabled' : disabled})
+            slots["Вечер"].append({"slot": current_time_slot, "disabled": disabled})
         current_time_slot = current_time_slot.replace(hour=current_time_slot.hour + 1)
 
     rendered_template = render_to_string(
-        "partial_slots.html",
-        {"slots": slots},
-        request=request
+        "partial_slots.html", {"slots": slots}, request=request
     )
     return JsonResponse({"template": rendered_template}, safe=False)
+
 
 def ajax_load_salons(request):
     specialist_id = request.GET.get("specialist_id", None)
@@ -240,11 +243,13 @@ def ajax_load_specialists(request):
     if service_id:
         specialists = specialists.filter(skills__id=service_id).distinct()
     if time and date:
-        dt_object = datetime.strptime(date.strip()+" "+time.strip()+" +0300", '%a %b %d %Y %H:%M %z')
+        dt_object = datetime.strptime(
+            date.strip() + " " + time.strip() + " +0300", "%a %b %d %Y %H:%M %z"
+        )
         specialists = specialists.exclude(
             appointments__date=dt_object.strftime("%Y-%m-%d"),
-            appointments__slot=dt_object.strftime('%H:%M')
-            )
+            appointments__slot=dt_object.strftime("%H:%M"),
+        )
     rendered_template = render_to_string(
         "partial_specialists.html",
         {"specialists": specialists},
@@ -260,14 +265,13 @@ def edit_profile(request):
         form = ProfileUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect("profile")
     else:
-
         form = ProfileUserForm(instance=user)
 
     context = {
-        'form': form,
-        'user': user,
+        "form": form,
+        "user": user,
     }
     return render(request, "profile_edit.html", context=context)
 
@@ -275,7 +279,7 @@ def edit_profile(request):
 @login_required
 def send_review(request):
     if request.method == "POST":
-        name = request.POST.get("name")
+        # name = request.POST.get("name")
         phone_raw = request.POST.get("phone_number", "").strip()
         description = request.POST.get("description", "")
         rating = request.POST.get("rating")
@@ -290,11 +294,10 @@ def send_review(request):
 
         try:
             appointment = Appointment.objects.filter(
-                phone_number=phone_raw,
-                date=visit_date
+                phone_number=phone_raw, date=visit_date
             ).first()
 
-            if appointment and not hasattr(appointment, 'client_rating'):
+            if appointment and not hasattr(appointment, "client_rating"):
                 ClientReview.objects.create(
                     appointment=appointment,
                     phone_number=phone_raw,
@@ -309,9 +312,9 @@ def send_review(request):
 
 
 def send_payment(request):
-    if request.method == 'POST':
-        appointment_id = request.POST.get('appointment_id')
-        tips_amount = request.POST.get('tips_amount')
+    if request.method == "POST":
+        appointment_id = request.POST.get("appointment_id")
+        tips_amount = request.POST.get("tips_amount")
 
         if appointment_id:
             appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -320,7 +323,7 @@ def send_payment(request):
         elif tips_amount:
             print(f"Получены чаевые: {tips_amount}")
 
-        return redirect('payment_success')
+        return redirect("payment_success")
 
 
 def payment_success(request):

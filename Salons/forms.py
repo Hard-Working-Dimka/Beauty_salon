@@ -1,10 +1,9 @@
 from django import forms
+from django.forms import widgets
+from phonenumber_field.formfields import PhoneNumberField
 
 from CustomUser.models import User
 from Salons.models import Review
-from django.forms import widgets
-
-from phonenumber_field.formfields import PhoneNumberField
 
 
 class QuestionForm(forms.ModelForm):
