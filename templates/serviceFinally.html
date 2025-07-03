@@ -1,116 +1,64 @@
 {% extends 'base_template.html' %} {% load static %} {% block content %}
-<section id="serviceFinally">
-  <div class="container">
-    <div class="serviceFinally">
-      <div class="row">
-        <div class="col-md-6 col-lg-6">
-          <div class="breadCrumbs">
-            <a href="{% url 'main' %}" class="breadCrumbs__item">На главную</a>
-          </div>
-          <div class="service__block">
-            <h1 class="service__title">Запись на услугу</h1>
-          </div>
-          <form action="#" class="serviceFinally__form">
-            <div class="serviceFinally__form_block">
-              <div class="serviceFinally__form_header fic">
-                <span class="serviceFinally__form_header__number"
-                  >Запись</span
-                >
-                <div class="serviceFinally__form_header__item fic">
-                  <div class="serviceFinally__form_header__service">
-                    {{specialist.salon.name}}
-                  </div>
-                  <div class="serviceFinally__form_header__address">
-                    {{specialist.salon.address}}
+  <section id="serviceFinally">
+    <div class="container">
+      <div class="serviceFinally">
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+            <div class="breadCrumbs">
+              <a href="{% url 'main' %}" class="breadCrumbs__item">На главную</a>
+            </div>
+            <div class="service__block">
+              <h1 class="service__title">Запись на услугу</h1>
+            </div>
+            <form method="post" class="serviceFinally__form">
+              {% csrf_token %}
+              <div class="serviceFinally__form_block">
+                <div class="serviceFinally__form_header fic">
+                  <span class="serviceFinally__form_header__number">Запись</span>
+                  <div class="serviceFinally__form_header__item fic">
+                    <div class="serviceFinally__form_header__service">{{ specialist.salon.name }}</div>
+                    <div class="serviceFinally__form_header__address">{{ specialist.salon.address }}</div>
                   </div>
                 </div>
-              </div>
-              <div class="serviceFinally__form_content">
-                <div class="serviceFinally__form_content__block fic">
-                  <div class="serviceFinally__form_content__title">
-                    {{service.name}}
+                <div class="serviceFinally__form_content">
+                  <div class="serviceFinally__form_content__block fic">
+                    <div class="serviceFinally__form_content__title">{{ service.name }}</div>
+                    <div class="serviceFinally__form_content__price">{{ service.price }} ₽</div>
                   </div>
-                  <div class="serviceFinally__form_content__price">{{service.price}} ₽</div>
-                </div>
-                <div class="serviceFinally__form_content__block fic">
-                  <div class="serviceFinally__form_content__items fic">
-                    <img
-                      src="{{ specialist.photo.url}}"
-                      alt="avatar"
-                      class="accordion__block_img"
-                    />
-                    <div class="accordion__block_master">{{specialist.name}}</div>
-                  </div>
-                  <div class="serviceFinally__form_content__item fic">
-                    <div class="serviceFinally__form_content__time">{{time}}</div>
-                    <div class="serviceFinally__form_content__date">
-                      {{date}}
+                  <div class="serviceFinally__form_content__block fic">
+                    <div class="serviceFinally__form_content__items fic">
+                      <img src="{{ specialist.photo.url }}" alt="avatar" class="accordion__block_img" />
+                      <div class="accordion__block_master">{{ specialist.name }}</div>
+                    </div>
+                    <div class="serviceFinally__form_content__item fic">
+                      <div class="serviceFinally__form_content__time">{{ time }}</div>
+                      <div class="serviceFinally__form_content__date">{{ date }}</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="serviceFinally__form_itesm">
-              <div class="contacts__form_block fic">
-                <input
-                  type="text"
-                  name="fname"
-                  class="contacts__form_iunput"
-                  placeholder="Введите имя"
-                  {%if user.is_authenticated %}
-                  value="{{user.name}}"
-                  {% endif %}
-                  required=""
-                />
-                <div class="contacts__form_inputBlock">
-                  <input
-                    type="text"
-                    name="tel"
-                    class="contacts__form_iunput"
-                    {%if user.is_authenticated %}
-                    value="{{user.phonenumber}}"
-                    {% endif %}
-                    placeholder="+7(999)999--99-99"
-                    required=""
-                  />
+              <div class="serviceFinally__form_itesm">
+                <div class="contacts__form_block fic">
+                  {{ form.name }}
+                  <div class="contacts__form_inputBlock">{{ form.phonenumber }}</div>
                 </div>
-              </div>
 
-              <textarea
-                name="contactsTextarea"
-                class="contacts__form_textarea"
-                placeholder="Вопрос(необязательно)"
-              ></textarea>
-              <div class="contacts__form_checkboxBlock fic">
-                <input
-                  type="checkbox"
-                  class="contacts__form_checkbox"
-                  checked=""
-                />
-                <span class="contacts__form_checkboxBlock__intro"
-                  >Я согласен(а) с политикой конфидециоальности</span
-                >
+                {{ form.question }}
+                <div class="contacts__form_checkboxBlock fic">
+                  <input type="checkbox" class="contacts__form_checkbox" checked="" />
+                  <span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
+                </div>
+                <button type="submit" class="serviceFinallys__form_btn">Записаться</button>
+                <a href="{% url 'service' %}"><button type="button" class="serviceFinallys__form_back">Назад ></button></a>
               </div>
-              <button type="submit" class="serviceFinallys__form_btn">
-                Записаться
-              </button>
-              <a href="{% url 'service' %}"
-                ><button type="button" class="serviceFinallys__form_back">
-                  Назад
-                </button></a
-              >
-            </div>
-          </form>
-        </div>
-        <div class="col-md-12 col-lg-5">
-          <img
-            src="{% static 'img/bannerImg.svg' %}"
-            alt="bannerImg"
-            class="banner__img"
-          />
+            </form>
+          </div>
+
+          <div class="col-md-12 col-lg-5">
+            <img src="{% static 'img/bannerImg.svg' %}" alt="bannerImg" class="banner__img" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 {% endblock %}

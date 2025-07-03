@@ -1,15 +1,23 @@
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.template.loader import render_to_string
-from .models import Appointment
-from django.utils.timezone import now
-from django.shortcuts import redirect
 from datetime import datetime
 
-from .forms import QuestionForm, ProfileUserForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.utils.timezone import now
 
-from Salons.models import Salon, Specialist, ServiceType, BeautyService, ClientReview, Review
+from Salons.models import (
+    BeautyService,
+    ClientReview,
+    Review,
+    Salon,
+    ServiceType,
+    Specialist,
+)
+
+from .forms import AppointmentForm, ProfileUserForm, QuestionForm
+from .models import Appointment
 
 RATING = {
     0: '☆☆☆☆☆',
@@ -110,20 +118,47 @@ def show_service(request):
 
 
 def show_serviceFinaly(request, service_id, specialist_id, time, date):
-    error = request.session.pop("error", None)
-    show_popup = request.session.get("show_popup", False)
     service = BeautyService.objects.get(id=service_id)
     if not specialist_id:
         specialist = Specialist.objects.filter(skills__id=service_id).order_by('?').first()
     else:
         specialist = Specialist.objects.get(id=specialist_id)
+    error = request.session.pop("error", None)
+    show_popup = request.session.get("show_popup", False)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            phonenumber = form.cleaned_data['phonenumber']
+            if not request.user.is_authenticated:
+                user = authenticate(request, phonenumber=phonenumber)
+                if user is not None:
+                    login(request, user)
+            
+            a = Appointment.objects.create(
+                phone_number=phonenumber,
+                name=form.cleaned_data['name'],
+                question=form.cleaned_data['question'],
+                date=date,
+                slot=time,
+                specialist=specialist,
+                service=service
+            )
+            return redirect('profile')
+    initial = None
+    if request.user.is_authenticated:
+        initial = {
+            "phonenumber": request.user.phonenumber,
+            "name": request.user.first_name,
+        }
+    form = AppointmentForm(initial=initial)
     context = {
         "error": error,
         "show_popup": show_popup,
         "specialist": specialist,
         "date": date,
         "time": time,
-        "service": service
+        "service": service,
+        "form": form,
     }
     return render(request, "serviceFinally.html", context=context)
 
