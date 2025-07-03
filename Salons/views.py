@@ -123,6 +123,7 @@ def show_serviceFinaly(request, service_id, specialist_id, time, date):
     if request.method == "POST":
         form_type = request.POST.get("form_type")
         if form_type == "promo":
+            initial = None
             if request.user.is_authenticated:
                 initial = {
                     "phonenumber": request.user.phonenumber,
