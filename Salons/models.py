@@ -69,7 +69,7 @@ class Appointment(models.Model):
     is_paid = models.BooleanField(default=False)
     service = models.ForeignKey(BeautyService, on_delete=models.CASCADE)
     Promo = models.ForeignKey(Promo, null=True, blank=True, on_delete=models.SET_NULL)
-    question = models.CharField(max_length=100)
+    question = models.CharField(max_length=100, null=False, blank=True, default="")
     name = models.CharField(max_length=100)
 
     def __str__(self):
