@@ -117,8 +117,9 @@ def show_serviceFinaly(request):
     dt_object = datetime.strptime(date.strip()+" "+time.strip()+" +0300", '%a %b %d %Y %H:%M %z')
     specialist_id = request.GET.get("specialist_id", None)
     service_id = request.GET.get("service_id", None)
-    date = dt_object.strftime("%Y-%m-%d")
+    date = dt_object.strftime('%d %B')
     time = dt_object.strftime('%H:%M')
+    service = BeautyService.objects.get(id=service_id)
     if not specialist_id:
         specialist = Specialist.objects.filter(skills__id=service_id).order_by('?').first()
     else:
@@ -126,7 +127,10 @@ def show_serviceFinaly(request):
     context = {
         "error": error,
         "show_popup": show_popup,
-        "specialist": specialist
+        "specialist": specialist,
+        "date": date,
+        "time": time,
+        "service": service
     }
     return render(request, "serviceFinally.html", context=context)
 
