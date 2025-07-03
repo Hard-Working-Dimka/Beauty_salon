@@ -299,7 +299,7 @@ def ajax_load_salons(request):
 def ajax_load_beauty_services(request):
     salon_id = request.GET.get("salon_id", None)
     specialist_id = request.GET.get("specialist_id", None)
-    services = BeautyService.objects.all().select_related("service_type")
+    services = BeautyService.objects.all().select_related("service_type").order_by("service_type__name")
     if salon_id:
         services = services.filter(specialists__salon=salon_id).distinct()
     if specialist_id:
